@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3e4c59"/>
+      <stop offset="100%" stop-color="#9db4c0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect x="30" y="30" width="740" height="540" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+  <circle cx="400" cy="255" r="120" fill="rgba(255,255,255,0.14)"/>
+  <circle cx="400" cy="255" r="85" fill="rgba(255,255,255,0.18)"/>
+  <circle cx="400" cy="255" r="50" fill="rgba(255,255,255,0.24)"/>
+  <text x="400" y="445" text-anchor="middle" font-family="Georgia, serif" font-size="40" fill="#ffffff" font-weight="600">Linen Sheer Curtains</text>
+  <text x="400" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="19" fill="rgba(255,255,255,0.75)" letter-spacing="4">PREMIUM FURNITURE</text>
+  <text x="400" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="rgba(255,255,255,0.5)" letter-spacing="2">FURNISHING ESSENTIALS</text>
+</svg>

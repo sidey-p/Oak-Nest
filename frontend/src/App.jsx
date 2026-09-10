@@ -1,0 +1,91 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import { Spinner } from './components/common/UI';
+
+import Home from './pages/Home';
+import Products from './pages/Products';
+import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
+import Checkout from './pages/Checkout';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import OrderDetails from './pages/OrderDetails';
+import TrackOrder from './pages/TrackOrder';
+import CustomDesign from './pages/CustomDesign';
+import Feedback from './pages/Feedback';
+import NotFound from './pages/NotFound';
+
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminPayments from './pages/admin/AdminPayments';
+import AdminShipments from './pages/admin/AdminShipments';
+import AdminReviews from './pages/admin/AdminReviews';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminCustomRequests from './pages/admin/AdminCustomRequests';
+import AdminFeedback from './pages/admin/AdminFeedback';
+
+const Protected = ({ children, admin = false }) => {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="min-h-screen grid place-items-center"><Spinner /></div>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (admin && user.role !== 'admin') return <Navigate to="/" replace />;
+  return children;
+};
+
+const App = () => (
+  <Routes>
+    <Route path="/admin" element={<Protected admin><AdminLayout /></Protected>}>
+      <Route index element={<AdminDashboard />} />
+      <Route path="products" element={<AdminProducts />} />
+      <Route path="categories" element={<AdminCategories />} />
+      <Route path="orders" element={<AdminOrders />} />
+      <Route path="customers" element={<AdminCustomers />} />
+      <Route path="payments" element={<AdminPayments />} />
+      <Route path="shipments" element={<AdminShipments />} />
+      <Route path="reviews" element={<AdminReviews />} />
+      <Route path="coupons" element={<AdminCoupons />} />
+      <Route path="custom-requests" element={<AdminCustomRequests />} />
+      <Route path="feedback" element={<AdminFeedback />} />
+    </Route>
+
+    <Route
+      path="*"
+      element={
+        <>
+          <Navbar />
+          <main className="min-h-[70vh]">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:slug" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/wishlist" element={<Protected><Wishlist /></Protected>} />
+              <Route path="/checkout" element={<Protected><Checkout /></Protected>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Protected><Profile /></Protected>} />
+              <Route path="/orders" element={<Protected><Orders /></Protected>} />
+              <Route path="/orders/:id" element={<Protected><OrderDetails /></Protected>} />
+              <Route path="/orders/:id/tracking" element={<Protected><TrackOrder /></Protected>} />
+              <Route path="/custom-design" element={<CustomDesign />} />
+              <Route path="/feedback" element={<Feedback />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </>
+      }
+    />
+  </Routes>
+);
+
+export default App;
