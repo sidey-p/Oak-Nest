@@ -49,13 +49,11 @@ const Protected = ({ children, admin = false }) => {
 const App = () => {
   const location = useLocation();
 
-  // Re-run the scroll reveal whenever the route changes, and again shortly
-  // after so async-loaded sections (grids, reviews) animate too.
+  // Scroll reveal: re-scan on every route change. Elements mounted later
+  // (async grids, reviews) are picked up automatically by the MutationObserver
+  // inside revealPage().
   useEffect(() => {
     revealPage();
-    const t = setTimeout(revealPage, 350);
-    const t2 = setTimeout(revealPage, 900);
-    return () => { clearTimeout(t); clearTimeout(t2); };
   }, [location]);
 
   return (
