@@ -143,7 +143,7 @@ const AdminContent = () => {
           <ImageInput
             label="Hero banner image"
             value={content.hero_image}
-            currentHint={content.hero_image ? 'A hero image is currently set.' : 'No hero image set — the default gradient background is used.'}
+            currentHint={content.hero_image ? 'A hero image is currently set — replace it above or remove it.' : 'No hero image set — the default gradient background is used.'}
             onChange={setHeroImageInput}
           />
         </div>

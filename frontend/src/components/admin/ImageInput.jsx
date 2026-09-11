@@ -65,7 +65,7 @@ const ImageInput = ({ label = 'Image', value, onChange, currentHint }) => {
           </button>
         </div>
       )}
-      {!preview && currentHint && <p className="mt-1 text-[10px] text-brand-400">{currentHint}</p>}
+      {currentHint && <p className="mt-1 text-[10px] text-brand-400">{currentHint}</p>}
     </div>
   );
 };
