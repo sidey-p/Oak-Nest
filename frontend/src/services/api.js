@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Same-origin '/api' works locally (Vite proxy) and on Vercel
+// (serverless functions under /api). Override with VITE_API_URL
+// to point the frontend at a separately hosted backend.
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 api.interceptors.request.use((config) => {

@@ -1,5 +1,5 @@
--- ============================================================
--- FURNISHING ESSENTIALS — SEED DATA (run AFTER schema.sql)
+﻿-- ============================================================
+-- FURNISHING ESSENTIALS â€” SEED DATA (run AFTER schema.sql)
 -- ============================================================
 
 -- Clear existing data (order matters due to FKs)
@@ -21,82 +21,82 @@ INSERT INTO users (first_name, last_name, email, phone, password, role, is_activ
 -- CATEGORIES
 -- ============================================================
 INSERT INTO categories (name, slug, description, image) VALUES
-('Living Room', 'living-room', 'Sofas, sectionals, coffee tables, TV units and accent furniture for your living space.', 'http://localhost:5000/uploads/categories/living-room.svg'),
-('Bedroom', 'bedroom', 'Beds, wardrobes, dressers, nightstands and bedroom storage solutions.', 'http://localhost:5000/uploads/categories/bedroom.svg'),
-('Office', 'office', 'Desks, office chairs, filing cabinets and workspace furniture.', 'http://localhost:5000/uploads/categories/office.svg'),
-('Kitchen', 'kitchen', 'Dining tables, kitchen cabinets, islands and modular kitchen units.', 'http://localhost:5000/uploads/categories/kitchen.svg'),
-('Lighting', 'lighting', 'Ceiling lights, floor lamps, table lamps and wall sconces.', 'http://localhost:5000/uploads/categories/lighting.svg'),
-('Curtains', 'curtains', 'Curtains, drapes, sheers and blinds in premium fabrics.', 'http://localhost:5000/uploads/categories/curtains.svg'),
-('Rugs', 'rugs', 'Hand-woven rugs, carpets and floor coverings.', 'http://localhost:5000/uploads/categories/rugs.svg'),
-('Storage', 'storage', 'Shelving, bookcases, cabinets and multifunctional storage.', 'http://localhost:5000/uploads/categories/storage.svg'),
-('Decor', 'decor', 'Mirrors, wall art, vases, clocks and decorative accents.', 'http://localhost:5000/uploads/categories/decor.svg');
+('Living Room', 'living-room', 'Sofas, sectionals, coffee tables, TV units and accent furniture for your living space.', '/uploads/categories/living-room.svg'),
+('Bedroom', 'bedroom', 'Beds, wardrobes, dressers, nightstands and bedroom storage solutions.', '/uploads/categories/bedroom.svg'),
+('Office', 'office', 'Desks, office chairs, filing cabinets and workspace furniture.', '/uploads/categories/office.svg'),
+('Kitchen', 'kitchen', 'Dining tables, kitchen cabinets, islands and modular kitchen units.', '/uploads/categories/kitchen.svg'),
+('Lighting', 'lighting', 'Ceiling lights, floor lamps, table lamps and wall sconces.', '/uploads/categories/lighting.svg'),
+('Curtains', 'curtains', 'Curtains, drapes, sheers and blinds in premium fabrics.', '/uploads/categories/curtains.svg'),
+('Rugs', 'rugs', 'Hand-woven rugs, carpets and floor coverings.', '/uploads/categories/rugs.svg'),
+('Storage', 'storage', 'Shelving, bookcases, cabinets and multifunctional storage.', '/uploads/categories/storage.svg'),
+('Decor', 'decor', 'Mirrors, wall art, vases, clocks and decorative accents.', '/uploads/categories/decor.svg');
 
 -- ============================================================
 -- PRODUCTS (36 products, images served locally from /uploads)
 -- ============================================================
 -- Living Room (category 1)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(1, 'Aurora 3-Seater Fabric Sofa', 'aurora-3-seater-fabric-sofa', 'A plush 3-seater sofa with solid sheesham wood frame and premium stain-resistant fabric upholstery. Includes two cushions.', 'Furnora', 'Fabric', 54999.00, 46999.00, 12, 'http://localhost:5000/uploads/products/aurora-3-seater-fabric-sofa.svg', 'active'),
-(1, 'Terracotta L-Shaped Sectional', 'terracotta-l-shaped-sectional', 'Spacious L-shaped sectional with reversible chaise and deep seating, perfect for large families.', 'Furnora', 'Fabric', 82999.00, NULL, 6, 'http://localhost:5000/uploads/products/terracotta-l-shaped-sectional.svg', 'active'),
-(1, 'Oakland Coffee Table', 'oakland-coffee-table', 'Mid-century coffee table in solid oak with lower storage shelf and rounded edges.', 'WoodCraft', 'Wood', 14999.00, 12999.00, 18, 'http://localhost:5000/uploads/products/oakland-coffee-table.svg', 'active'),
-(1, 'Clara Accent Armchair', 'clara-accent-armchair', 'Compact accent chair with tapered wooden legs and soft velvet upholstery.', 'Furnora', 'Velvet', 18999.00, NULL, 10, 'http://localhost:5000/uploads/products/clara-accent-armchair.svg', 'active'),
-(1, 'Wall-Mounted TV Console', 'wall-mounted-tv-console', 'Floating TV console with two drawers and cable management cutouts. Fits up to 65-inch TVs.', 'UrbanNest', 'Engineered Wood', 11999.00, 9999.00, 22, 'http://localhost:5000/uploads/products/wall-mounted-tv-console.svg', 'active'),
-(1, 'Sahara Recliner Chair', 'sahara-recliner-chair', 'Single-seater manual recliner with padded headrest and breathable leatherette.', 'ComfortPlus', 'Leather', 27999.00, 23999.00, 8, 'http://localhost:5000/uploads/products/sahara-recliner-chair.svg', 'active');
+(1, 'Aurora 3-Seater Fabric Sofa', 'aurora-3-seater-fabric-sofa', 'A plush 3-seater sofa with solid sheesham wood frame and premium stain-resistant fabric upholstery. Includes two cushions.', 'Furnora', 'Fabric', 54999.00, 46999.00, 12, '/uploads/products/aurora-3-seater-fabric-sofa.svg', 'active'),
+(1, 'Terracotta L-Shaped Sectional', 'terracotta-l-shaped-sectional', 'Spacious L-shaped sectional with reversible chaise and deep seating, perfect for large families.', 'Furnora', 'Fabric', 82999.00, NULL, 6, '/uploads/products/terracotta-l-shaped-sectional.svg', 'active'),
+(1, 'Oakland Coffee Table', 'oakland-coffee-table', 'Mid-century coffee table in solid oak with lower storage shelf and rounded edges.', 'WoodCraft', 'Wood', 14999.00, 12999.00, 18, '/uploads/products/oakland-coffee-table.svg', 'active'),
+(1, 'Clara Accent Armchair', 'clara-accent-armchair', 'Compact accent chair with tapered wooden legs and soft velvet upholstery.', 'Furnora', 'Velvet', 18999.00, NULL, 10, '/uploads/products/clara-accent-armchair.svg', 'active'),
+(1, 'Wall-Mounted TV Console', 'wall-mounted-tv-console', 'Floating TV console with two drawers and cable management cutouts. Fits up to 65-inch TVs.', 'UrbanNest', 'Engineered Wood', 11999.00, 9999.00, 22, '/uploads/products/wall-mounted-tv-console.svg', 'active'),
+(1, 'Sahara Recliner Chair', 'sahara-recliner-chair', 'Single-seater manual recliner with padded headrest and breathable leatherette.', 'ComfortPlus', 'Leather', 27999.00, 23999.00, 8, '/uploads/products/sahara-recliner-chair.svg', 'active');
 
 -- Bedroom (category 2)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(2, 'Kyoto Queen Bed with Storage', 'kyoto-queen-bed-storage', 'Queen-size bed in warm walnut finish with two hydraulic storage boxes and tufted headboard.', 'WoodCraft', 'Wood', 49999.00, 42999.00, 9, 'http://localhost:5000/uploads/products/kyoto-queen-bed-storage.svg', 'active'),
-(2, 'Lumière King Bed', 'lumiere-king-bed', 'King-size platform bed with flannel-lined headboard and solid teak frame.', 'WoodCraft', 'Wood', 64999.00, NULL, 5, 'http://localhost:5000/uploads/products/lumiere-king-bed.svg', 'active'),
-(2, 'Aria 3-Door Wardrobe', 'aria-3-door-wardrobe', '3-door wardrobe with full-length mirror, internal drawers and hanging space.', 'UrbanNest', 'Engineered Wood', 38999.00, 34999.00, 11, 'http://localhost:5000/uploads/products/aria-3-door-wardrobe.svg', 'active'),
-(2, 'Noir Bedside Table', 'noir-bedside-table', 'Matte black nightstand with soft-close drawer and open niche.', 'UrbanNest', 'Engineered Wood', 6499.00, 5299.00, 30, 'http://localhost:5000/uploads/products/noir-bedside-table.svg', 'active'),
-(2, 'Serene Dressing Table', 'serene-dressing-table', 'Dressing table with oval mirror, five drawers and cushioned stool.', 'Furnora', 'Wood', 17999.00, NULL, 14, 'http://localhost:5000/uploads/products/serene-dressing-table.svg', 'active');
+(2, 'Kyoto Queen Bed with Storage', 'kyoto-queen-bed-storage', 'Queen-size bed in warm walnut finish with two hydraulic storage boxes and tufted headboard.', 'WoodCraft', 'Wood', 49999.00, 42999.00, 9, '/uploads/products/kyoto-queen-bed-storage.svg', 'active'),
+(2, 'LumiÃ¨re King Bed', 'lumiere-king-bed', 'King-size platform bed with flannel-lined headboard and solid teak frame.', 'WoodCraft', 'Wood', 64999.00, NULL, 5, '/uploads/products/lumiere-king-bed.svg', 'active'),
+(2, 'Aria 3-Door Wardrobe', 'aria-3-door-wardrobe', '3-door wardrobe with full-length mirror, internal drawers and hanging space.', 'UrbanNest', 'Engineered Wood', 38999.00, 34999.00, 11, '/uploads/products/aria-3-door-wardrobe.svg', 'active'),
+(2, 'Noir Bedside Table', 'noir-bedside-table', 'Matte black nightstand with soft-close drawer and open niche.', 'UrbanNest', 'Engineered Wood', 6499.00, 5299.00, 30, '/uploads/products/noir-bedside-table.svg', 'active'),
+(2, 'Serene Dressing Table', 'serene-dressing-table', 'Dressing table with oval mirror, five drawers and cushioned stool.', 'Furnora', 'Wood', 17999.00, NULL, 14, '/uploads/products/serene-dressing-table.svg', 'active');
 
 -- Office (category 3)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(3, 'Ergo Pro Mesh Office Chair', 'ergo-pro-mesh-office-chair', 'Ergonomic chair with adjustable lumbar support, 4D armrests and breathable mesh back.', 'ComfortPlus', 'Mesh', 15999.00, 12999.00, 25, 'http://localhost:5000/uploads/products/ergo-pro-mesh-office-chair.svg', 'active'),
-(3, 'Executive Leather Chair', 'executive-leather-chair', 'High-back executive chair in bonded leather with tilt lock and chrome base.', 'ComfortPlus', 'Leather', 21999.00, NULL, 15, 'http://localhost:5000/uploads/products/executive-leather-chair.svg', 'active'),
-(3, 'Minimal Work Desk 120cm', 'minimal-work-desk-120', '120cm work desk with cable tray, matte laminate top and steel legs.', 'UrbanNest', 'Engineered Wood', 9999.00, 8499.00, 28, 'http://localhost:5000/uploads/products/minimal-work-desk-120.svg', 'active'),
-(3, 'Bharat Study Table', 'bharat-study-table', 'Compact study table with bookshelf hutch and pen drawer, ideal for students.', 'WoodCraft', 'Wood', 7499.00, NULL, 20, 'http://localhost:5000/uploads/products/bharat-study-table.svg', 'active'),
-(3, '3-Drawer File Cabinet', '3-drawer-file-cabinet', 'Metal file cabinet with lockable drawers and anti-tilt mechanism.', 'Officeline', 'Steel', 8999.00, 7499.00, 17, 'http://localhost:5000/uploads/products/3-drawer-file-cabinet.svg', 'active');
+(3, 'Ergo Pro Mesh Office Chair', 'ergo-pro-mesh-office-chair', 'Ergonomic chair with adjustable lumbar support, 4D armrests and breathable mesh back.', 'ComfortPlus', 'Mesh', 15999.00, 12999.00, 25, '/uploads/products/ergo-pro-mesh-office-chair.svg', 'active'),
+(3, 'Executive Leather Chair', 'executive-leather-chair', 'High-back executive chair in bonded leather with tilt lock and chrome base.', 'ComfortPlus', 'Leather', 21999.00, NULL, 15, '/uploads/products/executive-leather-chair.svg', 'active'),
+(3, 'Minimal Work Desk 120cm', 'minimal-work-desk-120', '120cm work desk with cable tray, matte laminate top and steel legs.', 'UrbanNest', 'Engineered Wood', 9999.00, 8499.00, 28, '/uploads/products/minimal-work-desk-120.svg', 'active'),
+(3, 'Bharat Study Table', 'bharat-study-table', 'Compact study table with bookshelf hutch and pen drawer, ideal for students.', 'WoodCraft', 'Wood', 7499.00, NULL, 20, '/uploads/products/bharat-study-table.svg', 'active'),
+(3, '3-Drawer File Cabinet', '3-drawer-file-cabinet', 'Metal file cabinet with lockable drawers and anti-tilt mechanism.', 'Officeline', 'Steel', 8999.00, 7499.00, 17, '/uploads/products/3-drawer-file-cabinet.svg', 'active');
 
 -- Kitchen (category 4)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(4, 'Nordic 6-Seater Dining Set', 'nordic-6-seater-dining-set', '6-seater dining set in light oak with cushioned chairs and 180cm table.', 'WoodCraft', 'Wood', 58999.00, 49999.00, 7, 'http://localhost:5000/uploads/products/nordic-6-seater-dining-set.svg', 'active'),
-(4, 'Compact Kitchen Island', 'compact-kitchen-island', 'Movable kitchen island with granite-look top, towel rack and two shelves.', 'Officeline', 'Engineered Wood', 18999.00, NULL, 12, 'http://localhost:5000/uploads/products/compact-kitchen-island.svg', 'active'),
-(4, 'Metro Bar Stool Set of 2', 'metro-bar-stool-set-2', 'Counter-height bar stools with footrest and faux-leather seats.', 'UrbanNest', 'Leather', 9999.00, 8299.00, 24, 'http://localhost:5000/uploads/products/metro-bar-stool-set-2.svg', 'active'),
-(4, 'Spice Rack Wall Organizer', 'spice-rack-wall-organizer', '3-tier wall-mounted spice rack with bamboo shelves.', 'MetroLiving', 'Bamboo', 2799.00, 2299.00, 40, 'http://localhost:5000/uploads/products/spice-rack-wall-organizer.svg', 'active');
+(4, 'Nordic 6-Seater Dining Set', 'nordic-6-seater-dining-set', '6-seater dining set in light oak with cushioned chairs and 180cm table.', 'WoodCraft', 'Wood', 58999.00, 49999.00, 7, '/uploads/products/nordic-6-seater-dining-set.svg', 'active'),
+(4, 'Compact Kitchen Island', 'compact-kitchen-island', 'Movable kitchen island with granite-look top, towel rack and two shelves.', 'Officeline', 'Engineered Wood', 18999.00, NULL, 12, '/uploads/products/compact-kitchen-island.svg', 'active'),
+(4, 'Metro Bar Stool Set of 2', 'metro-bar-stool-set-2', 'Counter-height bar stools with footrest and faux-leather seats.', 'UrbanNest', 'Leather', 9999.00, 8299.00, 24, '/uploads/products/metro-bar-stool-set-2.svg', 'active'),
+(4, 'Spice Rack Wall Organizer', 'spice-rack-wall-organizer', '3-tier wall-mounted spice rack with bamboo shelves.', 'MetroLiving', 'Bamboo', 2799.00, 2299.00, 40, '/uploads/products/spice-rack-wall-organizer.svg', 'active');
 
 -- Lighting (category 5)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(5, 'Halo Pendant Light', 'halo-pendant-light', 'Brushed-metal pendant with dimmable warm LED, ideal over dining tables.', 'Lumos', 'Metal', 5499.00, 4499.00, 35, 'http://localhost:5000/uploads/products/halo-pendant-light.svg', 'active'),
-(5, 'Arched Floor Lamp', 'arched-floor-lamp', 'Statement arc floor lamp with marble base and linen shade.', 'Lumos', 'Metal', 8999.00, NULL, 16, 'http://localhost:5000/uploads/products/arched-floor-lamp.svg', 'active'),
-(5, 'Dune Table Lamp', 'dune-table-lamp', 'Ceramic-based table lamp with woven cotton shade.', 'Lumos', 'Ceramic', 3499.00, 2999.00, 42, 'http://localhost:5000/uploads/products/dune-table-lamp.svg', 'active'),
-(5, 'Smart LED Ceiling Panel', 'smart-led-ceiling-panel', 'App and voice-controlled ceiling panel with 16M colors and scheduling.', 'Lumos', 'Aluminium', 6999.00, NULL, 19, 'http://localhost:5000/uploads/products/smart-led-ceiling-panel.svg', 'active');
+(5, 'Halo Pendant Light', 'halo-pendant-light', 'Brushed-metal pendant with dimmable warm LED, ideal over dining tables.', 'Lumos', 'Metal', 5499.00, 4499.00, 35, '/uploads/products/halo-pendant-light.svg', 'active'),
+(5, 'Arched Floor Lamp', 'arched-floor-lamp', 'Statement arc floor lamp with marble base and linen shade.', 'Lumos', 'Metal', 8999.00, NULL, 16, '/uploads/products/arched-floor-lamp.svg', 'active'),
+(5, 'Dune Table Lamp', 'dune-table-lamp', 'Ceramic-based table lamp with woven cotton shade.', 'Lumos', 'Ceramic', 3499.00, 2999.00, 42, '/uploads/products/dune-table-lamp.svg', 'active'),
+(5, 'Smart LED Ceiling Panel', 'smart-led-ceiling-panel', 'App and voice-controlled ceiling panel with 16M colors and scheduling.', 'Lumos', 'Aluminium', 6999.00, NULL, 19, '/uploads/products/smart-led-ceiling-panel.svg', 'active');
 
 -- Curtains (category 6)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(6, 'Blackout Curtain Pair 7ft', 'blackout-curtain-pair-7ft', 'Thermal blackout curtains blocking 95% light, set of 2, 5ft width each.', 'Velvet & Vine', 'Polyester', 3999.00, 3199.00, 50, 'http://localhost:5000/uploads/products/blackout-curtain-pair-7ft.svg', 'active'),
-(6, 'Linen Sheer Curtains', 'linen-sheer-curtains', 'Breezy sheer linen-look curtains for soft filtered daylight.', 'Velvet & Vine', 'Linen Blend', 2899.00, NULL, 38, 'http://localhost:5000/uploads/products/linen-sheer-curtains.svg', 'active'),
-(6, 'Velvet Drape Panel', 'velvet-drape-panel', 'Luxurious velvet drapes with weighted hem, 9ft length.', 'Velvet & Vine', 'Velvet', 5499.00, 4299.00, 20, 'http://localhost:5000/uploads/products/velvet-drape-panel.svg', 'active');
+(6, 'Blackout Curtain Pair 7ft', 'blackout-curtain-pair-7ft', 'Thermal blackout curtains blocking 95% light, set of 2, 5ft width each.', 'Velvet & Vine', 'Polyester', 3999.00, 3199.00, 50, '/uploads/products/blackout-curtain-pair-7ft.svg', 'active'),
+(6, 'Linen Sheer Curtains', 'linen-sheer-curtains', 'Breezy sheer linen-look curtains for soft filtered daylight.', 'Velvet & Vine', 'Linen Blend', 2899.00, NULL, 38, '/uploads/products/linen-sheer-curtains.svg', 'active'),
+(6, 'Velvet Drape Panel', 'velvet-drape-panel', 'Luxurious velvet drapes with weighted hem, 9ft length.', 'Velvet & Vine', 'Velvet', 5499.00, 4299.00, 20, '/uploads/products/velvet-drape-panel.svg', 'active');
 
 -- Rugs (category 7)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(7, 'Persian Medallion Rug 8x10', 'persian-medallion-rug-8x10', 'Machine-woven Persian-style rug with medallion motif and anti-skid backing.', 'Carvan Rugs', 'Polypropylene', 15999.00, 12999.00, 9, 'http://localhost:5000/uploads/products/persian-medallion-rug-8x10.svg', 'active'),
-(7, 'Jute Braided Rug 6x9', 'jute-braided-rug-6x9', 'Hand-braided natural jute rug, reversible and eco-friendly.', 'Carvan Rugs', 'Jute', 7999.00, NULL, 15, 'http://localhost:5000/uploads/products/jute-braided-rug-6x9.svg', 'active'),
-(7, 'Shaggy Area Rug 5x8', 'shaggy-area-rug-5x8', 'Ultra-soft shag rug with high pile for cozy living rooms.', 'Carvan Rugs', 'Acrylic', 6499.00, 5299.00, 21, 'http://localhost:5000/uploads/products/shaggy-area-rug-5x8.svg', 'active');
+(7, 'Persian Medallion Rug 8x10', 'persian-medallion-rug-8x10', 'Machine-woven Persian-style rug with medallion motif and anti-skid backing.', 'Carvan Rugs', 'Polypropylene', 15999.00, 12999.00, 9, '/uploads/products/persian-medallion-rug-8x10.svg', 'active'),
+(7, 'Jute Braided Rug 6x9', 'jute-braided-rug-6x9', 'Hand-braided natural jute rug, reversible and eco-friendly.', 'Carvan Rugs', 'Jute', 7999.00, NULL, 15, '/uploads/products/jute-braided-rug-6x9.svg', 'active'),
+(7, 'Shaggy Area Rug 5x8', 'shaggy-area-rug-5x8', 'Ultra-soft shag rug with high pile for cozy living rooms.', 'Carvan Rugs', 'Acrylic', 6499.00, 5299.00, 21, '/uploads/products/shaggy-area-rug-5x8.svg', 'active');
 
 -- Storage (category 8)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(8, 'Bharat 5-Shelf Bookcase', 'bharat-5-shelf-bookcase', 'Open bookcase with five adjustable shelves in honey finish.', 'WoodCraft', 'Wood', 8999.00, 7499.00, 18, 'http://localhost:5000/uploads/products/bharat-5-shelf-bookcase.svg', 'active'),
-(8, 'Folding Storage Ottoman', 'folding-storage-ottoman', 'Velvet storage ottoman that folds flat and holds up to 40L.', 'MetroLiving', 'Velvet', 2999.00, 2499.00, 33, 'http://localhost:5000/uploads/products/folding-storage-ottoman.svg', 'active'),
-(8, 'Space-Saver Shoe Cabinet', 'space-saver-shoe-cabinet', 'Tall shoe cabinet with tilt-out drawers for 12 pairs.', 'UrbanNest', 'Engineered Wood', 6499.00, NULL, 26, 'http://localhost:5000/uploads/products/space-saver-shoe-cabinet.svg', 'active');
+(8, 'Bharat 5-Shelf Bookcase', 'bharat-5-shelf-bookcase', 'Open bookcase with five adjustable shelves in honey finish.', 'WoodCraft', 'Wood', 8999.00, 7499.00, 18, '/uploads/products/bharat-5-shelf-bookcase.svg', 'active'),
+(8, 'Folding Storage Ottoman', 'folding-storage-ottoman', 'Velvet storage ottoman that folds flat and holds up to 40L.', 'MetroLiving', 'Velvet', 2999.00, 2499.00, 33, '/uploads/products/folding-storage-ottoman.svg', 'active'),
+(8, 'Space-Saver Shoe Cabinet', 'space-saver-shoe-cabinet', 'Tall shoe cabinet with tilt-out drawers for 12 pairs.', 'UrbanNest', 'Engineered Wood', 6499.00, NULL, 26, '/uploads/products/space-saver-shoe-cabinet.svg', 'active');
 
 -- Decor (category 9)
 INSERT INTO products (category_id, name, slug, description, brand, material, price, discount_price, stock, main_image, status) VALUES
-(9, 'Aureate Wall Mirror', 'aureate-wall-mirror', 'Sunburst wall mirror with antique gold metal rays, 24-inch.', 'MetroLiving', 'Metal', 5999.00, 4999.00, 23, 'http://localhost:5000/uploads/products/aureate-wall-mirror.svg', 'active'),
-(9, 'Zen Ceramic Vase Trio', 'zen-ceramic-vase-trio', 'Set of three matte-glaze ceramic vases in earthy tones.', 'MetroLiving', 'Ceramic', 3499.00, NULL, 45, 'http://localhost:5000/uploads/products/zen-ceramic-vase-trio.svg', 'active'),
-(9, 'Marble-Effect Wall Clock', 'marble-effect-wall-clock', '12-inch silent wall clock with marble-pattern dial.', 'Lumos', 'Metal', 2499.00, 1999.00, 52, 'http://localhost:5000/uploads/products/marble-effect-wall-clock.svg', 'active'),
-(9, 'Jharokha Wall Art Panel', 'jharokha-wall-art-panel', 'Hand-carved wooden wall panel inspired by Rajasthani jharokhas.', 'WoodCraft', 'Wood', 8999.00, 7299.00, 10, 'http://localhost:5000/uploads/products/jharokha-wall-art-panel.svg', 'active');
+(9, 'Aureate Wall Mirror', 'aureate-wall-mirror', 'Sunburst wall mirror with antique gold metal rays, 24-inch.', 'MetroLiving', 'Metal', 5999.00, 4999.00, 23, '/uploads/products/aureate-wall-mirror.svg', 'active'),
+(9, 'Zen Ceramic Vase Trio', 'zen-ceramic-vase-trio', 'Set of three matte-glaze ceramic vases in earthy tones.', 'MetroLiving', 'Ceramic', 3499.00, NULL, 45, '/uploads/products/zen-ceramic-vase-trio.svg', 'active'),
+(9, 'Marble-Effect Wall Clock', 'marble-effect-wall-clock', '12-inch silent wall clock with marble-pattern dial.', 'Lumos', 'Metal', 2499.00, 1999.00, 52, '/uploads/products/marble-effect-wall-clock.svg', 'active'),
+(9, 'Jharokha Wall Art Panel', 'jharokha-wall-art-panel', 'Hand-carved wooden wall panel inspired by Rajasthani jharokhas.', 'WoodCraft', 'Wood', 8999.00, 7299.00, 10, '/uploads/products/jharokha-wall-art-panel.svg', 'active');
 
 -- ============================================================
 -- PRODUCT IMAGES (gallery entries; main images duplicated as primary)

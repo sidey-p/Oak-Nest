@@ -40,5 +40,7 @@ export const makeUploader = (subfolder) => {
   });
 };
 
+// Relative URL works for both local dev (frontend proxies /uploads to
+// the backend) and the Vercel deployment (images live in the frontend).
 export const publicImageUrl = (req, filename, subfolder) =>
-  `${req.protocol}://${req.get('host')}/uploads/${subfolder}/${filename}`;
+  `/uploads/${subfolder}/${filename}`;
