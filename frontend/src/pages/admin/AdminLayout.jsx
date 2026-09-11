@@ -33,7 +33,7 @@ const AdminLayout = () => {
           {LINKS.map(([to, label, path], i) => (
             <NavLink key={to} to={to === '.' ? '/admin' : `/admin/${to}`} end={to === '.'}
               className={({ isActive }) =>
-                `animate-slide-in-right flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isActive ? 'bg-gradient-to-r from-brand-700 to-brand-800 text-white shadow-soft' : 'text-brand-300 hover:bg-brand-900 hover:text-white'}`}
+                `animate-slide-in-right flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isActive ? 'bg-gradient-to-r from-brand-700 to-brand-800 text-white shadow-soft' : 'text-brand-300 hover:bg-brand-900 hover:text-white'}`}
               style={{ animationDelay: `${i * 30}ms` }}>
               <svg className="h-4.5 w-4.5 shrink-0" style={{ width: 18, height: 18 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d={path} /></svg>
               {label}

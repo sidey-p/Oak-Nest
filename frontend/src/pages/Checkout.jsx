@@ -111,7 +111,7 @@ const Checkout = () => {
         {STEPS.map((s, i) => (
           <li key={s} className="flex flex-1 items-center last:flex-none">
             <div className="flex flex-col items-center">
-              <span className={`grid h-9 w-9 place-items-center rounded-full text-sm font-bold shadow-sm transition-all duration-300 ${i < step ? 'bg-accent-600 text-white scale-100' : i === step ? 'bg-brand-900 text-white scale-110 shadow-glow' : 'bg-brand-200 text-brand-500'}`}>
+              <span className={`grid h-9 w-9 place-items-center rounded-full text-sm font-bold shadow-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${i < step ? 'bg-accent-600 text-white scale-100' : i === step ? 'bg-brand-900 text-white scale-110 shadow-glow' : 'bg-brand-200 text-brand-500'}`}>
                 {i < step ? '✓' : i + 1}
               </span>
               <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wide text-brand-600">{s}</span>

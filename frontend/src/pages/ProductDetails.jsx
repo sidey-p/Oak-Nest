@@ -12,7 +12,7 @@ const Stars = ({ n, onChange, readOnly }) => (
   <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map((i) => (
       <button key={i} type="button" disabled={readOnly} onClick={() => onChange?.(i)}
-        className={`text-2xl transition-transform ${i <= n ? 'text-gold-500' : 'text-brand-200'} ${readOnly ? '' : 'hover:scale-125'}`}>
+        className={`text-2xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${i <= n ? 'text-gold-500' : 'text-brand-200'} ${readOnly ? '' : 'hover:scale-125'}`}>
         ★
       </button>
     ))}
@@ -128,7 +128,7 @@ const ProductDetails = () => {
             <div className="mt-3 flex gap-3">
               {images.map((img, i) => (
                 <button key={img.id || i} onClick={() => setActiveImage(i)}
-                  className={`h-20 w-24 overflow-hidden rounded-xl border-2 transition-all ${i === activeImage ? 'border-accent-600 shadow-glow' : 'border-transparent opacity-70 hover:opacity-100'}`}>
+                  className={`h-20 w-24 overflow-hidden rounded-xl border-2 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${i === activeImage ? 'border-accent-600 shadow-glow' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                   <img src={img.image_url} alt="" className="h-full w-full object-cover" />
                 </button>
               ))}
@@ -270,7 +270,7 @@ const ProductDetails = () => {
                 <div key={r} className="flex items-center gap-2 text-xs">
                   <span className="w-3">{r}</span>
                   <div className="h-2 flex-1 rounded-full bg-brand-100">
-                    <div className="h-full rounded-full bg-gold-500 transition-all duration-700"
+                    <div className="h-full rounded-full bg-gold-500 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
                       style={{ width: `${reviews.stats.total ? ((reviews.stats.distribution[r] || 0) / reviews.stats.total) * 100 : 0}%` }} />
                   </div>
                   <span className="w-6 text-right text-brand-500">{reviews.stats.distribution?.[r] || 0}</span>

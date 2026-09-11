@@ -57,7 +57,7 @@ const Cart = () => {
               {popular.map((p) => (
                 <Link key={p.id} to={`/products/${p.slug}`} className="card-lift group overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
                   <div className="aspect-4/3 overflow-hidden bg-brand-100">
-                    <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                    <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
                   </div>
                   <div className="p-4">
                     <p className="line-clamp-1 text-sm font-semibold text-brand-900">{p.name}</p>

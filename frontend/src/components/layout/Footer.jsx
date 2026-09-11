@@ -68,7 +68,7 @@ const Footer = () => (
           <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-400">Follow along for spaces, stories, and inspiration</p>
           <div className="mt-3 flex gap-2">
             {[Camera, Globe, Play, AtSign].map((Icon, i) => (
-              <a key={i} href="#" className="grid h-9 w-9 place-items-center rounded-full border border-brand-700 text-brand-300 transition hover:border-gold-400 hover:text-gold-300">
+              <a key={i} href="#" className="grid h-9 w-9 place-items-center rounded-full border border-brand-700 text-brand-300 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-gold-400 hover:text-gold-300 hover:-translate-y-0.5">
                 <Icon className="h-4 w-4" />
               </a>
             ))}

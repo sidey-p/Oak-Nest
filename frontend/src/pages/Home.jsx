@@ -176,7 +176,7 @@ const ShopByStyle = () => (
       {STYLES.map(([title, text, slug], i) => (
         <Link key={slug} to={`/products?search=${encodeURIComponent(title.split(' ')[0])}`}
           className="card-lift reveal group rounded-2xl border border-brand-200 bg-white p-6 text-center shadow-soft" style={{ animationDelay: `${i * 50}ms` }}>
-          <span className="font-serif text-2xl font-bold text-brand-200 transition-colors duration-500 group-hover:text-gold-400">{String(i + 1).padStart(2, '0')}</span>
+          <span className="font-serif text-2xl font-bold text-brand-200 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-gold-400">{String(i + 1).padStart(2, '0')}</span>
           <h3 className="mt-2 font-serif text-base font-semibold text-brand-900">{title}</h3>
           <p className="mt-1.5 text-xs leading-relaxed text-brand-500">{text}</p>
         </Link>
@@ -203,7 +203,7 @@ const CompleteTheLook = () => (
       <div className="grid grid-cols-2 gap-4">
         {['aurora-3-seater-fabric-sofa', 'oakland-coffee-table', 'arched-floor-lamp', 'shaggy-area-rug-5x8'].map((slug, i) => (
           <Link key={slug} to={`/products/${slug}`} className={`overflow-hidden rounded-2xl border border-brand-700 ${i % 2 ? 'mt-6' : ''}`}>
-            <img src={`/uploads/products/${slug}.svg`} alt="" className="h-40 w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
+            <img src={`/uploads/products/${slug}.svg`} alt="" className="h-40 w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105" />
           </Link>
         ))}
       </div>
@@ -366,7 +366,7 @@ const RecentlyViewed = () => {
         {recent.slice(0, 6).map((p) => (
           <Link key={p.id} to={`/products/${p.slug}`} className="card-lift group overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
             <div className="aspect-4/3 overflow-hidden bg-brand-100">
-              <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
+              <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
             </div>
             <p className="line-clamp-1 p-2.5 text-xs font-semibold text-brand-800">{p.name}</p>
           </Link>

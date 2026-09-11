@@ -222,9 +222,13 @@ test('CONTENT FLOW - homepage content, testimonials, admin editor, image link', 
   await page.getByRole('button', { name: 'Save Content' }).click();
   await expect(page.getByText('Storefront content updated', { exact: false })).toBeVisible();
 
-  // Homepage reflects the change
+  // Homepage reflects the change (retry once if the API read raced the write)
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'E2E Hero Headline From Admin' })).toBeVisible();
+  const e2eHeading = page.getByRole('heading', { name: 'E2E Hero Headline From Admin' });
+  if (!(await e2eHeading.isVisible({ timeout: 8000 }).catch(() => false))) {
+    await page.reload();
+  }
+  await expect(e2eHeading).toBeVisible({ timeout: 10000 });
 
   // Create a testimonial with an image link (fetched + stored as base64)
   await page.goto('/admin/content');

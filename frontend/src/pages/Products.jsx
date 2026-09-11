@@ -137,7 +137,7 @@ const Products = () => {
                   className="rounded-full border border-brand-300 px-4 py-2 text-sm transition hover:border-accent-500 hover:bg-white disabled:opacity-40">← Prev</button>
                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
                   <button key={p} onClick={() => goToPage(p)}
-                    className={`h-9 w-9 rounded-full text-sm font-semibold transition-all ${p === pagination.page ? 'bg-brand-900 text-white shadow-soft scale-105' : 'border border-brand-300 hover:border-accent-500 hover:bg-white'}`}>
+                    className={`h-9 w-9 rounded-full text-sm font-semibold transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${p === pagination.page ? 'bg-brand-900 text-white shadow-soft scale-105' : 'border border-brand-300 hover:border-accent-500 hover:bg-white'}`}>
                     {p}
                   </button>
                 ))}

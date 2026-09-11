@@ -48,12 +48,12 @@ const Navbar = () => {
     `underline-grow text-sm font-semibold tracking-wide transition-colors ${isActive ? 'text-accent-600 active' : 'text-brand-800 hover:text-accent-600'}`;
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass-panel shadow-soft border-b border-brand-200/70' : 'bg-brand-50 border-b border-transparent'}`}>
+    <header className={`sticky top-0 z-40 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${scrolled ? 'glass-panel shadow-soft border-b border-brand-200/70' : 'bg-brand-50 border-b border-transparent'}`}>
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-18 items-center justify-between py-2.5">
           {/* Logo */}
           <Link to="/" className="group flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-800 to-brand-950 shadow-soft transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-800 to-brand-950 shadow-soft transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 group-hover:-rotate-3">
               <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold-300" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22v-7" /><path d="M9 15h6l3-6-3-4H9L6 9l3 6z" /><path d="M9 9c0-2 1.5-4 3-4" />
               </svg>
@@ -68,7 +68,7 @@ const Navbar = () => {
             {NAV_LINKS.map((l) => (
               <div key={l.label} className="group relative">
                 <NavLink to={l.to} className={link}>{l.label}</NavLink>
-                <div className="pointer-events-none absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
+                <div className="pointer-events-none absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:pointer-events-auto group-hover:opacity-100">
                   <div className="rounded-2xl border border-brand-200 bg-white p-3 shadow-lift">
                     <p className="rounded-xl bg-brand-50 px-3 py-2 text-xs leading-relaxed text-brand-600">{l.sub}</p>
                     <Link to={l.to} className="mt-1 flex items-center gap-1 rounded-xl px-3 py-2 text-xs font-semibold text-accent-600 hover:bg-brand-50">
@@ -180,7 +180,7 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile drawer */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${menuOpen ? 'max-h-96 border-t border-brand-200' : 'max-h-0'}`}>
+      <div className={`md:hidden overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${menuOpen ? 'max-h-96 border-t border-brand-200' : 'max-h-0'}`}>
         <div className="flex flex-col gap-1 bg-brand-50 px-4 py-4">
           <div className="mb-2 flex items-center rounded-xl border border-brand-300 px-3 sm:hidden">
             <Search className="h-4 w-4 text-brand-400" />

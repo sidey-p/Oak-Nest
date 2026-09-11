@@ -107,7 +107,7 @@ const Profile = () => {
       <div className="reveal mt-8 flex gap-1 overflow-x-auto rounded-full bg-brand-100 p-1">
         {TABS.map((t, i) => (
           <button key={t} onClick={() => setTab(i)}
-            className={`flex-1 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold sm:text-sm transition-all duration-300 ${tab === i ? 'bg-white shadow-soft text-brand-900 scale-[1.02]' : 'text-brand-500 hover:text-brand-800'}`}>
+            className={`flex-1 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold sm:text-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${tab === i ? 'bg-white shadow-soft text-brand-900 scale-[1.02]' : 'text-brand-500 hover:text-brand-800'}`}>
             {t}
           </button>
         ))}

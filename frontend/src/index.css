@@ -30,6 +30,13 @@
   --font-serif: "Fraunces", "Georgia", serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
+  /* One elegant easing + slower default for EVERY hover/transition that
+     doesn't specify its own duration/easing (Tailwind default was 150ms
+     linear-ish — felt jumpy against the slow reveal animations). */
+  --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 250ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
   --shadow-soft: 0 2px 8px -2px rgb(26 20 16 / 0.08), 0 8px 24px -8px rgb(26 20 16 / 0.10);
   --shadow-lift: 0 12px 32px -8px rgb(26 20 16 / 0.20), 0 4px 12px -4px rgb(26 20 16 / 0.12);
   --shadow-glow: 0 0 0 1px rgb(207 158 69 / 0.25), 0 8px 30px -6px rgb(207 158 69 / 0.35);

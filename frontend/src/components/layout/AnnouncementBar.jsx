@@ -22,10 +22,10 @@ const AnnouncementBar = () => {
   return (
     <div className="relative z-50 bg-brand-950 text-brand-100">
       <div className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-2 px-4 text-center">
-        <Icon className="h-3.5 w-3.5 text-gold-400" />
-        <p key={idx} className="animate-fade-in text-[11px] font-semibold tracking-wide sm:text-xs">
-          {text}
-        </p>
+        <span key={idx} className="flex items-center gap-2 animate-fade-in">
+          <Icon className="h-3.5 w-3.5 text-gold-400" />
+          <p className="text-[11px] font-semibold tracking-wide sm:text-xs">{text}</p>
+        </span>
       </div>
     </div>
   );

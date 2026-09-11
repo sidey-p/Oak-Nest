@@ -64,7 +64,7 @@ const AdminDashboard = () => {
                   <span className="text-brand-500">{formatPrice(c.revenue)}</span>
                 </div>
                 <div className="mt-1 h-2.5 rounded-full bg-brand-100">
-                  <div className="h-full rounded-full bg-gradient-to-r from-accent-600 to-gold-400 transition-all duration-700"
+                  <div className="h-full rounded-full bg-gradient-to-r from-accent-600 to-gold-400 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
                     style={{ width: `${(Number(c.revenue) / maxRevenue) * 100}%` }} />
                 </div>
               </div>
