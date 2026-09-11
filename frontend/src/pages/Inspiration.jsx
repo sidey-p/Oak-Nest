@@ -43,7 +43,7 @@ const Inspiration = () => (
         {CATEGORIES.map(({ icon: Icon, title, text, img, to }, i) => (
           <Link key={title} to={to} className="card-lift reveal group relative overflow-hidden rounded-2xl border border-brand-200 shadow-soft" style={{ animationDelay: `${i * 50}ms` }}>
             <div className="aspect-16/9 overflow-hidden bg-brand-100">
-              <img src={`/uploads/categories/${img}.svg`} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+              <img src={`/uploads/categories/${img}.svg`} alt={title} className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/20 to-transparent" />
             <div className="absolute bottom-0 p-5">

@@ -188,3 +188,57 @@ test('ADMIN FLOW - dashboard, order status, review moderation', async ({ page })
   await page.locator('aside nav a', { hasText: 'Dashboard' }).first().click();
   await expect(page.getByText('Total Sales', { exact: false }).first()).toBeVisible();
 });
+
+test('CONTENT FLOW - homepage content, testimonials, admin editor, image link', async ({ page }) => {
+  // Homepage shows DB-driven hero + testimonials
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Furniture for every way of living.' })).toBeVisible();
+  await expect(page.getByText('Word of Mouth')).toBeVisible();
+  await expect(page.getByText('Ananya Iyer')).toBeVisible();
+
+  // Testimonial cards revealed (scroll-triggered animation must end visible)
+  await page.locator('div.card-lift', { hasText: 'Ananya Iyer' }).scrollIntoViewIfNeeded();
+  await expect(page.getByText('The Aurora sofa completely changed our living room', { exact: false }).first()).toBeVisible();
+
+  // Admin content editor
+  await page.goto('/login');
+  await page.getByLabel('Email').fill('admin@furnishing.local');
+  await page.getByLabel('Password', { exact: true }).fill(process.env.ADMIN_PASSWORD || 'admin123');
+  await page.getByRole('button', { name: 'Login', exact: true }).click();
+  await page.locator('aside nav a', { hasText: 'Content' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Storefront Content' })).toBeVisible();
+  await expect(page.getByText('No hero image set', { exact: false })).toBeVisible();
+
+  // Edit hero headline via the editor
+  const headline = page.getByLabel('Hero headline');
+  await headline.fill('E2E Hero Headline From Admin');
+  await page.getByRole('button', { name: 'Save Content' }).click();
+  await expect(page.getByText('Storefront content updated', { exact: false })).toBeVisible();
+
+  // Homepage reflects the change
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'E2E Hero Headline From Admin' })).toBeVisible();
+
+  // Create a testimonial with an image link (fetched + stored as base64)
+  await page.goto('/admin/content');
+  await page.getByLabel('Name *').fill('E2E Tester');
+  await page.getByPlaceholder('What they said about us...').fill('E2E testimonial quote — plays nicely.');
+  await page.getByRole('button', { name: 'Create Testimonial' }).click();
+  await expect(page.getByText('Testimonial created', { exact: false })).toBeVisible();
+  await expect(page.locator('div.card-lift', { hasText: 'E2E Tester' })).toBeVisible();
+
+  // Public homepage shows it
+  await page.goto('/');
+  await expect(page.getByText('E2E Tester')).toBeVisible();
+
+  // Cleanup: delete the E2E testimonial and restore the hero headline
+  await page.goto('/admin/content');
+  const card = page.locator('div.card-lift', { hasText: 'E2E Tester' }).first();
+  page.on('dialog', (d) => d.accept());
+  await card.getByRole('button', { name: 'Delete' }).click();
+  await expect(page.getByText('Testimonial deleted')).toBeVisible();
+
+  await page.getByLabel('Hero headline').fill('Furniture that makes every space feel like home.');
+  await page.getByRole('button', { name: 'Save Content' }).click();
+  await expect(page.getByText('Storefront content updated', { exact: false })).toBeVisible();
+});

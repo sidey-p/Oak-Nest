@@ -1,9 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import AnnouncementBar from './components/layout/AnnouncementBar';
 import { Spinner } from './components/common/UI';
+import { revealPage } from './hooks/useReveal';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -34,6 +36,7 @@ import AdminReviews from './pages/admin/AdminReviews';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminCustomRequests from './pages/admin/AdminCustomRequests';
 import AdminFeedback from './pages/admin/AdminFeedback';
+import AdminContent from './pages/admin/AdminContent';
 
 const Protected = ({ children, admin = false }) => {
   const { user, loading } = useAuth();
@@ -43,7 +46,19 @@ const Protected = ({ children, admin = false }) => {
   return children;
 };
 
-const App = () => (
+const App = () => {
+  const location = useLocation();
+
+  // Re-run the scroll reveal whenever the route changes, and again shortly
+  // after so async-loaded sections (grids, reviews) animate too.
+  useEffect(() => {
+    revealPage();
+    const t = setTimeout(revealPage, 350);
+    const t2 = setTimeout(revealPage, 900);
+    return () => { clearTimeout(t); clearTimeout(t2); };
+  }, [location]);
+
+  return (
   <Routes>
     <Route path="/admin" element={<Protected admin><AdminLayout /></Protected>}>
       <Route index element={<AdminDashboard />} />
@@ -57,6 +72,7 @@ const App = () => (
       <Route path="coupons" element={<AdminCoupons />} />
       <Route path="custom-requests" element={<AdminCustomRequests />} />
       <Route path="feedback" element={<AdminFeedback />} />
+      <Route path="content" element={<AdminContent />} />
     </Route>
 
     <Route
@@ -90,6 +106,7 @@ const App = () => (
       }
     />
   </Routes>
-);
+  );
+};
 
 export default App;

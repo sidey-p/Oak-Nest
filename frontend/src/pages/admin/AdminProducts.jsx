@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import api, { errorMessage } from '../../services/api';
 import { Alert, Badge, Spinner } from '../../components/common/UI';
+import ImageInput from '../../components/admin/ImageInput';
 import { formatPrice } from '../../utils/format';
 
 const emptyForm = { name: '', category_id: '', description: '', brand: '', material: '', price: '', discount_price: '', stock: 0, status: 'active' };
@@ -13,7 +14,7 @@ const AdminProducts = () => {
   const [msg, setMsg] = useState(null);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(emptyForm);
-  const [file, setFile] = useState(null);
+  const [imageInput, setImageInput] = useState({ file: null, link: '' });
   const [search, setSearch] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -34,13 +35,6 @@ const AdminProducts = () => {
 
   useEffect(() => { load(); }, [load]);
 
-  // load all products including drafts/archived (admin sees all via /admin products list)
-  useEffect(() => {
-    api.get('/products', { params: { perPage: 100 } })
-      .then((d) => setProducts(d.data.products))
-      .catch(() => {});
-  }, []);
-
   const input = 'mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500';
 
   const startEdit = (p) => {
@@ -50,7 +44,7 @@ const AdminProducts = () => {
       brand: p.brand || '', material: p.material || '', price: p.price,
       discount_price: p.discount_price || '', stock: p.stock, status: p.status,
     });
-    setFile(null);
+    setImageInput({ file: null, link: '' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -61,14 +55,15 @@ const AdminProducts = () => {
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v ?? ''));
-      if (file) fd.append('image', file);
+      if (imageInput.file) fd.append('image', imageInput.file);
+      else if (imageInput.link) fd.append('main_image', imageInput.link);
       if (editing) {
         await api.put(`/products/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       } else {
         await api.post('/products', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       }
       setMsg({ type: 'success', text: `Product ${editing ? 'updated' : 'created'} ✓` });
-      setForm(emptyForm); setEditing(null); setFile(null);
+      setForm(emptyForm); setEditing(null); setImageInput({ file: null, link: '' });
       api.get('/products', { params: { perPage: 100 } }).then((d) => setProducts(d.data.products));
     } catch (err) {
       setMsg({ type: 'error', text: errorMessage(err) });
@@ -140,8 +135,12 @@ const AdminProducts = () => {
             </select>
           </div>
           <div className="lg:col-span-2">
-            <label className="text-xs font-semibold text-brand-700">Main image {editing && <span className="font-normal text-brand-400">(leave empty to keep current)</span>}</label>
-            <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} className="mt-1.5 w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-brand-100 file:px-4 file:py-2 file:text-sm file:font-semibold" />
+            <ImageInput
+              label="Main image"
+              value={editing?.main_image}
+              currentHint={editing?.main_image ? 'A main image is set — leave empty to keep it.' : 'Upload a custom image or paste any image link (e.g. Google Images).'}
+              onChange={setImageInput}
+            />
           </div>
           <div className="lg:col-span-3"><label className="text-xs font-semibold text-brand-700">Description</label><textarea rows="3" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className={input} /></div>
         </div>
@@ -150,7 +149,7 @@ const AdminProducts = () => {
             {busy ? 'Saving...' : editing ? 'Update Product' : 'Create Product'}
           </button>
           {editing && (
-            <button type="button" onClick={() => { setEditing(null); setForm(emptyForm); setFile(null); }} className="rounded-xl border border-brand-300 px-6 py-2.5 text-sm font-semibold">
+            <button type="button" onClick={() => { setEditing(null); setForm(emptyForm); setImageInput({ file: null, link: '' }); }} className="rounded-xl border border-brand-300 px-6 py-2.5 text-sm font-semibold">
               Cancel Edit
             </button>
           )}

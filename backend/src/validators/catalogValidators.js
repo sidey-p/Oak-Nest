@@ -6,6 +6,13 @@ const safeImagePath = (value) => {
   return v;
 };
 
+// main_image / category image may be a /uploads/ path, a base64 data URI,
+// or a remote http(s) link (fetched + converted to base64 server-side)
+const isAcceptedImageInput = (value) =>
+  safeImagePath(value) !== undefined
+  || /^data:image\/[^;,]+;base64,/i.test(String(value).trim())
+  || /^https?:\/\//i.test(String(value).trim());
+
 export const validateProduct = (body, partial = false) => {
   const errors = [];
   const { name, category_id, price, stock, material, brand, status, discount_price, description } = body;
@@ -43,8 +50,8 @@ export const validateProduct = (body, partial = false) => {
     errors.push('Description too long (max 5000 chars)');
   }
   if (body.main_image !== undefined && body.main_image !== null && body.main_image !== '') {
-    if (safeImagePath(body.main_image) === undefined) {
-      errors.push('Image must be an uploaded file (use the image upload) or a /uploads/ path');
+    if (!isAcceptedImageInput(body.main_image)) {
+      errors.push('Image must be an uploaded file, an http(s) image link, or a /uploads/ path');
     }
   }
 
@@ -59,8 +66,8 @@ export const validateCategory = (body, partial = false) => {
     if (String(name || '').trim().length > 100) errors.push('Category name too long (max 100 chars)');
   }
   if (image !== undefined && image !== null && image !== '') {
-    if (safeImagePath(image) === undefined) {
-      errors.push('Category image must be a /uploads/ path');
+    if (!isAcceptedImageInput(image)) {
+      errors.push('Category image must be an uploaded file, an http(s) image link, or a /uploads/ path');
     }
   }
   if (description !== undefined && description !== null && String(description).length > 1000) {

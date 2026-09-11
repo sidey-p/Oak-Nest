@@ -11,10 +11,10 @@ import {
   listBrands,
 } from '../controllers/productController.js';
 import { auth, adminOnly, optionalAuth } from '../middleware/auth.js';
-import { makeUploader } from '../middleware/upload.js';
+import { makeMemoryUploader } from '../middleware/upload.js';
 
 const router = Router();
-const upload = makeUploader('products');
+const upload = makeMemoryUploader();
 
 router.get('/', optionalAuth, listProducts);
 router.get('/meta/materials', listMaterials);

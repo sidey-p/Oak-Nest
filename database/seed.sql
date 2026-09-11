@@ -5,7 +5,7 @@
 -- Clear existing data (order matters due to FKs)
 TRUNCATE TABLE cart_items, carts, wishlist, order_items, payments, shipments,
   reviews, orders, addresses, product_images, products, categories,
-  feedback, custom_design_requests, coupons, users RESTART IDENTITY CASCADE;
+  feedback, custom_design_requests, coupons, testimonials, users RESTART IDENTITY CASCADE;
 
 -- ============================================================
 -- USERS (admin password is rotated per-deployment — set via seeding script; customer123 / password123 are demo-only)
@@ -215,6 +215,15 @@ INSERT INTO custom_design_requests (user_id, name, email, phone, room_type, furn
 (2, 'Rahul Sharma', 'customer@furnishing.local', '+91 90000 00002', 'living-room', 'sofa', '220cm x 95cm x 85cm', 'Fabric', 'Charcoal Grey', 60000, 'L-shaped sofa with chaise on the right and stain-resistant fabric for a family with kids.', NULL, 'quotation_sent', 'Shared a quotation of INR 58,500 including fabric upgrade. Awaiting customer confirmation.'),
 (3, 'Priya Patel', 'priya.patel@example.com', '+91 90000 00003', 'bedroom', 'wardrobe', '300cm x 240cm', 'Engineered Wood', 'Matte White', 120000, 'Full-wall wardrobe with loft, 6 drawers, dresser module and soft-close hinges.', NULL, 'under_review', NULL),
 (5, 'Vikram Mehta', 'vikram.mehta@example.com', '+91 90000 00005', 'office', 'desk', '180cm x 80cm', 'Solid Wood', 'Walnut', 45000, 'Executive desk with wire grommets, lockable drawer and matching credenza.', NULL, 'new', NULL);
+
+-- ============================================================
+-- TESTIMONIALS (homepage Word of Mouth section)
+-- ============================================================
+INSERT INTO testimonials (name, role, location, rating, quote, avatar_image, is_active, sort_order) VALUES
+('Ananya Iyer', 'Homeowner', 'Bengaluru', 5, 'The Aurora sofa completely changed our living room. Delivery was on time and the finish quality is even better than the photos.', NULL, TRUE, 1),
+('Rohan Desai', 'Architect', 'Mumbai', 5, 'I specify Oak & Nest pieces for client projects now. Consistent quality, honest pricing and a collection that actually works together.', NULL, TRUE, 2),
+('Meera Krishnan', 'Café Owner', 'Chennai', 4, 'Outfitted our 24-seat café with their dining sets. Sturdy, easy to clean and the warm wood tone gets compliments every single day.', NULL, TRUE, 3),
+('Arjun Malhotra', 'First-time Buyer', 'Delhi', 5, 'Was nervous buying furniture online, but the custom design team helped me pick the right wardrobe for an awkward corner. Zero regrets.', NULL, TRUE, 4);
 
 -- Sync sequence counters after explicit ID inserts
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));

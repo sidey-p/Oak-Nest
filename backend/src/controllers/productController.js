@@ -3,6 +3,7 @@ import { badRequest, notFound } from '../middleware/errors.js';
 import { validateProduct } from '../validators/catalogValidators.js';
 import { slugify, paginate, toNumber } from '../utils/helpers.js';
 import { publicImageUrl } from '../middleware/upload.js';
+import { dataUriFromBuffer, resolveImageInput } from '../utils/images.js';
 
 const SELECT_BASE = `
   SELECT p.*,
@@ -134,9 +135,11 @@ export const createProduct = async (req, res) => {
   const clash = await query('SELECT id FROM products WHERE slug = $1', [slug]);
   if (clash.rows.length) slug = `${slug}-${Date.now().toString().slice(-4)}`;
 
-  let mainImage = req.body.main_image || null;
+  let mainImage = null;
   if (req.file) {
-    mainImage = publicImageUrl(req, req.file.filename, 'products');
+    mainImage = dataUriFromBuffer(req.file.buffer, req.file.mimetype);
+  } else if (req.body.main_image !== undefined) {
+    mainImage = await resolveImageInput(req.body.main_image);
   }
 
   const result = await query(
@@ -180,9 +183,11 @@ export const updateProduct = async (req, res) => {
 
   const { name, description, brand, material, price, discount_price, stock, status, category_id } = req.body;
 
-  let mainImage = req.body.main_image !== undefined ? req.body.main_image : existing.rows[0].main_image;
+  let mainImage = existing.rows[0].main_image;
   if (req.file) {
-    mainImage = publicImageUrl(req, req.file.filename, 'products');
+    mainImage = dataUriFromBuffer(req.file.buffer, req.file.mimetype);
+  } else if (req.body.main_image !== undefined && String(req.body.main_image).trim() !== '') {
+    mainImage = await resolveImageInput(req.body.main_image);
   }
 
   const result = await query(
@@ -259,14 +264,20 @@ export const updateStock = async (req, res) => {
 export const addProductImage = async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) throw badRequest('Invalid product id');
-  if (!req.file) throw badRequest('Image file is required');
 
-  const exists = await query('SELECT id FROM products WHERE id = $1', [id]);
+  const exists = await query('SELECT id, main_image FROM products WHERE id = $1', [id]);
   if (!exists.rows[0]) throw notFound('Product not found');
 
-  const url = publicImageUrl(req, req.file.filename, 'products');
+  let url;
+  if (req.file) {
+    url = dataUriFromBuffer(req.file.buffer, req.file.mimetype);
+  } else {
+    url = await resolveImageInput(req.body?.image_url);
+    if (!url) throw badRequest('Provide an image file or an image link');
+  }
+
   const count = await query('SELECT COUNT(*) AS n FROM product_images WHERE product_id = $1', [id]);
-  const isFirst = Number(count.rows[0].n) === 0;
+  const isFirst = Number(count.rows[0].n) === 0 && !exists.rows[0].main_image;
 
   const result = await query(
     'INSERT INTO product_images (product_id, image_url, is_primary) VALUES ($1, $2, $3) RETURNING *',

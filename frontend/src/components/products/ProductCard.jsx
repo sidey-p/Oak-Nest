@@ -51,7 +51,7 @@ const ProductCard = ({ product, onWishlist, wishlisted, onQuickView, onCompare, 
         <img
           src={product.main_image || '/uploads/products/placeholder.svg'}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
         {discountPercent(product) > 0 && (

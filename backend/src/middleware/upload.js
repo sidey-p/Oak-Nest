@@ -13,6 +13,14 @@ const ALLOWED_MIME = new Set([
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
+const fileFilter = (req, file, cb) => {
+  if (ALLOWED_MIME.has(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(badRequest('Only image files (jpeg, png, webp, gif, svg) are allowed'));
+  }
+};
+
 export const makeUploader = (subfolder) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -25,20 +33,16 @@ export const makeUploader = (subfolder) => {
     },
   });
 
-  const fileFilter = (req, file, cb) => {
-    if (ALLOWED_MIME.has(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(badRequest('Only image files (jpeg, png, webp, gif, svg) are allowed'));
-    }
-  };
-
   return multer({
     storage,
     fileFilter,
     limits: { fileSize: MAX_FILE_SIZE },
   });
 };
+
+// Images kept in memory as a base64 data URI and stored directly in the DB.
+export const makeMemoryUploader = () =>
+  multer({ storage: multer.memoryStorage(), fileFilter, limits: { fileSize: MAX_FILE_SIZE } });
 
 // Relative URL works for both local dev (frontend proxies /uploads to
 // the backend) and the Vercel deployment (images live in the frontend).

@@ -58,7 +58,7 @@ const Wishlist = () => {
           {items.map((p) => (
             <div key={p.product_id} className="card-lift flex flex-col overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
               <Link to={`/products/${p.slug}`} className="aspect-[4/3] overflow-hidden bg-brand-100">
-                <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105" />
               </Link>
               <div className="flex flex-1 flex-col p-4">
                 <Link to={`/products/${p.slug}`} className="line-clamp-1 text-sm font-semibold hover:text-accent-600">{p.name}</Link>

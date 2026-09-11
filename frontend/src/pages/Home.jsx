@@ -4,13 +4,25 @@ import { Truck, ShieldCheck, CreditCard, MessageCircle, ArrowRight, Flame, Spark
 import api from '../services/api';
 import { errorMessage } from '../services/api';
 import ProductGrid from '../components/products/ProductGrid';
-import { Alert, Spinner, SectionHeading, Button } from '../components/common/UI';
+import { Alert, SectionHeading, Button } from '../components/common/UI';
 import { useRecent } from '../hooks/useRecent';
 
-const Hero = () => (
+const Hero = ({ content }) => {
+  const headline = content.hero_headline || 'Furniture that makes every space feel like home.';
+  const words = headline.trim().split(/\s+/);
+  const tail = words.slice(-3).join(' ');
+  const head = words.slice(0, -3).join(' ');
+  return (
   <section className="relative overflow-hidden bg-brand-950">
     <div className="absolute inset-0 bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800" />
-    <div className="dot-grid absolute inset-0 opacity-40" />
+    {content.hero_image ? (
+      <div className="absolute inset-0">
+        <img src={content.hero_image} alt="" className="h-full w-full object-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/60 to-brand-950/30" />
+      </div>
+    ) : (
+      <div className="dot-grid absolute inset-0 opacity-40" />
+    )}
     <div className="pointer-events-none absolute -right-24 top-0 h-[32rem] w-[32rem] rounded-full bg-gold-500/20 blur-3xl animate-float" />
     <div className="pointer-events-none absolute left-1/3 bottom-0 h-72 w-72 rounded-full bg-accent-500/20 blur-3xl" />
 
@@ -20,10 +32,10 @@ const Hero = () => (
           <Leaf className="h-3.5 w-3.5" /> Curated for better living
         </span>
         <h1 className="reveal mt-5 font-serif text-4xl font-bold leading-[1.1] text-white sm:text-5xl lg:text-6xl" style={{ animationDelay: '80ms' }}>
-          Furniture that makes every space <span className="gradient-text italic">feel like home.</span>
+          {head} <span className="gradient-text italic">{tail}</span>
         </h1>
         <p className="reveal mt-6 text-lg leading-relaxed text-brand-300" style={{ animationDelay: '160ms' }}>
-          Discover thoughtfully selected furniture and furnishing essentials designed for homes, workspaces, and the places where life happens.
+          {content.hero_subline || 'Discover thoughtfully selected furniture and furnishing essentials designed for homes, workspaces, and the places where life happens.'}
         </p>
         <div className="reveal mt-9 flex flex-wrap gap-4" style={{ animationDelay: '240ms' }}>
           <Link to="/products"><Button variant="gold" size="lg">Shop the Collection <ArrowRight className="h-4 w-4" /></Button></Link>
@@ -41,7 +53,8 @@ const Hero = () => (
 
     <svg className="relative block w-full text-brand-50" viewBox="0 0 1440 60" fill="currentColor"><path d="M0,32L1440,0L1440,60L0,60Z" /></svg>
   </section>
-);
+  );
+};
 
 const BENEFITS = [
   [Truck, 'Thoughtful Delivery', "From our collection to your space, we'll keep you updated along the way."],
@@ -73,28 +86,34 @@ const SPACES = [
   { icon: UtensilsCrossed, to: '/products?category=kitchen', title: 'Restaurants & Cafés', sub: 'Made for gathering.', text: 'Furniture that becomes part of the experience.', img: 'kitchen' },
 ];
 
-const ShopBySpace = () => (
-  <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-    <SectionHeading eyebrow="Shop by Space" title="Furniture for every way of living." subtitle="Explore thoughtfully selected pieces for the spaces that matter most." align="center" />
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {SPACES.map(({ icon: Icon, to, title, sub, text, img }, i) => (
-        <Link key={title} to={to} className="card-lift reveal group relative overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft" style={{ animationDelay: `${i * 60}ms` }}>
-          <div className="aspect-16/9 overflow-hidden bg-brand-100">
-            <img src={`/uploads/categories/${img}.svg`} alt={title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/20 to-transparent" />
-          <div className="absolute bottom-0 p-4">
-            <span className="mb-2 grid h-9 w-9 place-items-center rounded-xl bg-white/15 text-gold-300 backdrop-blur"><Icon className="h-4.5 w-4.5" /></span>
-            <h3 className="font-semibold text-white">{title}</h3>
-            <p className="text-xs font-medium text-gold-300">{sub}</p>
-            <p className="mt-1 hidden text-xs leading-relaxed text-brand-200 group-hover:block">{text}</p>
-            <p className="mt-2 flex items-center gap-1 text-xs font-bold text-white">Explore <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-1" /></p>
-          </div>
-        </Link>
-      ))}
-    </div>
-  </section>
-);
+const ShopBySpace = ({ categories }) => {
+  const bySlug = Object.fromEntries((categories || []).map((c) => [c.slug, c]));
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <SectionHeading eyebrow="Shop by Space" title="Furniture for every way of living." subtitle="Explore thoughtfully selected pieces for the spaces that matter most." align="center" />
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {SPACES.map(({ icon: Icon, to, title, sub, text, img }, i) => {
+          const cat = bySlug[img];
+          return (
+            <Link key={title} to={to} className="card-lift reveal group relative overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft" style={{ animationDelay: `${i * 60}ms` }}>
+              <div className="aspect-16/9 overflow-hidden bg-brand-100">
+                <img src={cat?.image || `/uploads/categories/${img}.svg`} alt={title} className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/20 to-transparent" />
+              <div className="absolute bottom-0 p-4">
+                <span className="mb-2 grid h-9 w-9 place-items-center rounded-xl bg-white/15 text-gold-300 backdrop-blur"><Icon className="h-4.5 w-4.5" /></span>
+                <h3 className="font-semibold text-white">{title}</h3>
+                <p className="text-xs font-medium text-gold-300">{sub}</p>
+                <p className="mt-1 hidden text-xs leading-relaxed text-brand-200 group-hover:block">{text}</p>
+                <p className="mt-2 flex items-center gap-1 text-xs font-bold text-white">Explore <ChevronRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" /></p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
 
 const COLLECTION_TABS = [
   { key: 'bestsellers', label: 'Bestsellers', icon: Flame, sub: 'The pieces everyone is talking about.', params: { sort: 'popular', perPage: 8 } },
@@ -124,7 +143,7 @@ const FeaturedCollections = () => {
         <div className="mt-8 flex flex-wrap justify-center gap-2">
           {COLLECTION_TABS.map(({ key, label, icon: Icon }) => (
             <button key={key} onClick={() => setTab(key)}
-              className={`btn-shine inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${tab === key ? 'bg-brand-900 text-white shadow-md' : 'border border-brand-200 bg-brand-50 text-brand-700 hover:border-accent-500'}`}>
+              className={`btn-shine inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-500 ${tab === key ? 'bg-brand-900 text-white shadow-md' : 'border border-brand-200 bg-brand-50 text-brand-700 hover:border-accent-500'}`}>
               <Icon className="h-4 w-4" /> {label}
             </button>
           ))}
@@ -156,8 +175,8 @@ const ShopByStyle = () => (
     <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {STYLES.map(([title, text, slug], i) => (
         <Link key={slug} to={`/products?search=${encodeURIComponent(title.split(' ')[0])}`}
-          className="card-lift reveal group rounded-2xl border border-brand-200 bg-white p-6 text-center shadow-soft transition" style={{ animationDelay: `${i * 50}ms` }}>
-          <span className="font-serif text-2xl font-bold text-brand-200 transition group-hover:text-gold-400">{String(i + 1).padStart(2, '0')}</span>
+          className="card-lift reveal group rounded-2xl border border-brand-200 bg-white p-6 text-center shadow-soft" style={{ animationDelay: `${i * 50}ms` }}>
+          <span className="font-serif text-2xl font-bold text-brand-200 transition-colors duration-500 group-hover:text-gold-400">{String(i + 1).padStart(2, '0')}</span>
           <h3 className="mt-2 font-serif text-base font-semibold text-brand-900">{title}</h3>
           <p className="mt-1.5 text-xs leading-relaxed text-brand-500">{text}</p>
         </Link>
@@ -184,7 +203,7 @@ const CompleteTheLook = () => (
       <div className="grid grid-cols-2 gap-4">
         {['aurora-3-seater-fabric-sofa', 'oakland-coffee-table', 'arched-floor-lamp', 'shaggy-area-rug-5x8'].map((slug, i) => (
           <Link key={slug} to={`/products/${slug}`} className={`overflow-hidden rounded-2xl border border-brand-700 ${i % 2 ? 'mt-6' : ''}`}>
-            <img src={`/uploads/products/${slug}.svg`} alt="" className="h-40 w-full object-cover transition duration-300 hover:scale-105" />
+            <img src={`/uploads/products/${slug}.svg`} alt="" className="h-40 w-full object-cover transition-transform duration-700 ease-out hover:scale-105" />
           </Link>
         ))}
       </div>
@@ -233,35 +252,38 @@ const INSPIRATION_CARDS = [
   ['Gather Together', 'Create a dining space made for sharing moments.', 'kitchen', '/products?category=kitchen'],
 ];
 
-const InspirationSection = () => (
-  <section className="bg-white py-16">
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <SectionHeading eyebrow="Inspiration" title="Ideas for every space." subtitle="Discover simple ways to make your space feel more like you." align="center" />
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {INSPIRATION_CARDS.map(([title, text, img, to], i) => (
-          <Link key={title} to={to} className="card-lift reveal group relative overflow-hidden rounded-2xl" style={{ animationDelay: `${i * 60}ms` }}>
-            <img src={`/uploads/categories/${img}.svg`} alt={title} className="h-52 w-full object-cover transition duration-500 group-hover:scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 to-transparent" />
-            <div className="absolute bottom-0 p-5">
-              <h3 className="font-serif text-lg font-semibold text-white">{title}</h3>
-              <p className="mt-1 text-xs text-brand-200">{text}</p>
-              <p className="mt-2 flex items-center gap-1 text-xs font-bold text-gold-300">Explore <ChevronRight className="h-3 w-3" /></p>
-            </div>
-          </Link>
-        ))}
+const InspirationSection = ({ categories }) => {
+  const bySlug = Object.fromEntries((categories || []).map((c) => [c.slug, c]));
+  return (
+    <section className="bg-white py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading eyebrow="Inspiration" title="Ideas for every space." subtitle="Discover simple ways to make your space feel more like you." align="center" />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {INSPIRATION_CARDS.map(([title, text, img, to], i) => (
+            <Link key={title} to={to} className="card-lift reveal group relative overflow-hidden rounded-2xl" style={{ animationDelay: `${i * 60}ms` }}>
+              <img src={bySlug[img]?.image || `/uploads/categories/${img}.svg`} alt={title} className="h-52 w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 to-transparent" />
+              <div className="absolute bottom-0 p-5">
+                <h3 className="font-serif text-lg font-semibold text-white">{title}</h3>
+                <p className="mt-1 text-xs text-brand-200">{text}</p>
+                <p className="mt-2 flex items-center gap-1 text-xs font-bold text-gold-300">Explore <ChevronRight className="h-3 w-3" /></p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link to="/inspiration"><Button variant="outline">All inspiration <ArrowRight className="h-4 w-4" /></Button></Link>
+        </div>
       </div>
-      <div className="mt-8 text-center">
-        <Link to="/inspiration"><Button variant="outline">All inspiration <ArrowRight className="h-4 w-4" /></Button></Link>
-      </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
-const QuoteSection = () => (
+const QuoteSection = ({ content }) => (
   <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
     <Quote className="mx-auto h-10 w-10 text-gold-400" />
     <blockquote className="reveal mt-6 font-serif text-2xl italic leading-relaxed text-brand-800 sm:text-3xl">
-      &ldquo;Every space has a story. Make yours worth living in.&rdquo;
+      &ldquo;{content.quote_text || 'Every space has a story. Make yours worth living in.'}&rdquo;
     </blockquote>
   </section>
 );
@@ -293,12 +315,39 @@ const ReviewsSection = ({ reviews }) => (
   </section>
 );
 
+const TestimonialsSection = ({ testimonials }) => (
+  <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <SectionHeading eyebrow="Word of Mouth" title="Homes that speak for us." subtitle="Real words from the people living with our pieces." align="center" />
+    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {testimonials.map((t, i) => (
+        <div key={t.id} className="card-lift reveal flex flex-col rounded-2xl border border-brand-200 bg-white p-6 shadow-soft" style={{ animationDelay: `${i * 60}ms` }}>
+          <div className="flex gap-0.5 text-gold-500">{'★'.repeat(t.rating)}{'☆'.repeat(5 - t.rating)}</div>
+          <p className="mt-3 flex-1 text-sm leading-relaxed text-brand-700">&ldquo;{t.quote}&rdquo;</p>
+          <div className="mt-5 flex items-center gap-3">
+            {t.avatar_image ? (
+              <img src={t.avatar_image} alt={t.name} className="h-10 w-10 rounded-full object-cover" />
+            ) : (
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-950 text-xs font-bold text-gold-300">
+                {t.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
+              </span>
+            )}
+            <div>
+              <p className="text-sm font-semibold text-brand-900">{t.name}</p>
+              <p className="text-[11px] text-brand-500">{[t.role, t.location].filter(Boolean).join(' · ')}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
 const Newsletter = () => (
   <section className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
     <SectionHeading eyebrow="Newsletter" title="Stay inspired." subtitle="Get new collections, design ideas, and thoughtful updates delivered to your inbox." align="center" />
     <form className="mx-auto mt-8 flex max-w-md gap-2" onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}>
       <input type="email" required placeholder="Your email address"
-        className="w-full rounded-full border border-brand-300 bg-white px-5 py-3 text-sm outline-none focus:border-accent-500" />
+        className="w-full rounded-full border border-brand-300 bg-white px-5 py-3 text-sm outline-none transition-colors duration-300 focus:border-accent-500" />
       <Button variant="primary" type="submit" className="shrink-0">Join Oak &amp; Nest <ArrowRight className="h-4 w-4" /></Button>
     </form>
     <p className="mt-3 text-xs text-brand-400">No clutter. Just good ideas and beautiful spaces.</p>
@@ -317,7 +366,7 @@ const RecentlyViewed = () => {
         {recent.slice(0, 6).map((p) => (
           <Link key={p.id} to={`/products/${p.slug}`} className="card-lift group overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
             <div className="aspect-4/3 overflow-hidden bg-brand-100">
-              <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition duration-300 group-hover:scale-110" />
+              <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" />
             </div>
             <p className="line-clamp-1 p-2.5 text-xs font-semibold text-brand-800">{p.name}</p>
           </Link>
@@ -327,27 +376,50 @@ const RecentlyViewed = () => {
   );
 };
 
+const DEFAULT_CONTENT = {
+  hero_headline: 'Furniture that makes every space',
+  hero_subline: 'Discover thoughtfully selected furniture and furnishing essentials designed for homes, workspaces, and the places where life happens.',
+  hero_image: null,
+  quote_text: 'Every space has a story. Make yours worth living in.',
+};
+
 const Home = () => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [categories, setCategories] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
     api.get('/reviews/products/3/reviews')
       .then((d) => setReviews(d.data.reviews.filter((x) => x.rating >= 4).slice(0, 3)))
       .catch((e) => setError(errorMessage(e)));
+
+    api.get('/content')
+      .then((d) => setContent((prev) => ({ ...prev, ...d.data.content })))
+      .catch(() => {});
+
+    api.get('/categories')
+      .then((d) => setCategories(d.data.categories))
+      .catch(() => {});
+
+    api.get('/testimonials')
+      .then((d) => setTestimonials(d.data.testimonials))
+      .catch(() => {});
   }, []);
 
   return (
     <div>
-      <Hero />
+      <Hero content={content} />
       <TrustBenefits />
-      <ShopBySpace />
+      <ShopBySpace categories={categories} />
       <FeaturedCollections />
       <ShopByStyle />
       <CompleteTheLook />
       <CustomDesignCta />
-      <InspirationSection />
-      <QuoteSection />
+      <InspirationSection categories={categories} />
+      <QuoteSection content={content} />
+      <TestimonialsSection testimonials={testimonials} />
       <ReviewsSection reviews={reviews} />
       <Newsletter />
       <RecentlyViewed />

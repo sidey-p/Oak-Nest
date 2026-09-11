@@ -2,6 +2,7 @@ import { query } from '../config/db.js';
 import { badRequest, notFound } from '../middleware/errors.js';
 import { validateCategory } from '../validators/catalogValidators.js';
 import { slugify } from '../utils/helpers.js';
+import { resolveImageInput } from '../utils/images.js';
 
 export const listCategories = async (req, res) => {
   const result = await query(
@@ -34,10 +35,14 @@ export const createCategory = async (req, res) => {
   const clash = await query('SELECT id FROM categories WHERE slug = $1', [slug]);
   if (clash.rows.length) slug = `${slug}-${Date.now().toString().slice(-4)}`;
 
+  const resolvedImage = image !== undefined && image !== null && String(image).trim() !== ''
+    ? await resolveImageInput(image)
+    : null;
+
   const result = await query(
     `INSERT INTO categories (name, slug, description, image)
      VALUES ($1, $2, $3, $4) RETURNING *`,
-    [String(name).trim(), slug, description?.trim() || null, image?.trim() || null],
+    [String(name).trim(), slug, description?.trim() || null, resolvedImage],
   );
   res.status(201).json({ success: true, message: 'Category created', category: result.rows[0] });
 };
@@ -53,16 +58,26 @@ export const updateCategory = async (req, res) => {
   if (errors.length) throw badRequest(errors.join('; '));
 
   const { name, description, image } = req.body;
+
+  let resolvedImage;
+  if (image === undefined) {
+    resolvedImage = existing.rows[0].image;
+  } else if (image === null || String(image).trim() === '') {
+    resolvedImage = null; // explicit clear
+  } else {
+    resolvedImage = await resolveImageInput(image);
+  }
+
   const result = await query(
     `UPDATE categories SET
        name = COALESCE($1, name),
        description = COALESCE($2, description),
-       image = COALESCE($3, image)
+       image = $3
      WHERE id = $4 RETURNING *`,
     [
       name !== undefined ? String(name).trim() : null,
       description !== undefined ? description : null,
-      image !== undefined ? image : null,
+      resolvedImage,
       id,
     ],
   );
