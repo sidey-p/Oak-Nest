@@ -1,14 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd frontend && npm run build",
+  "framework": "vite",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/((?!api/|uploads/).*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/[...path].js": {
-      "maxDuration": 30
-    }
-  }
+    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/((?!api/|uploads/|assets/).*)", "destination": "/index.html" }
+  ]
 }
