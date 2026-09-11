@@ -42,11 +42,11 @@ const AdminCustomers = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Customers</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Customers</h1>
           <p className="text-sm text-brand-500">{shown.length} registered customers</p>
         </div>
         <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search customers..."
-          className="w-64 rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500" />
+          className="w-64 rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-brand-200 bg-white">
@@ -78,7 +78,7 @@ const AdminCustomers = () => {
                 <td className="p-4"><Badge color={u.is_active ? 'green' : 'gray'}>{u.is_active ? 'Active' : 'Deactivated'}</Badge></td>
                 <td className="p-4">
                   <button onClick={() => toggle(u)}
-                    className={`rounded-lg border px-3 py-1.5 text-xs font-semibold ${u.is_active ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-green-700 hover:bg-green-50'}`}>
+                    className={`rounded-lg border px-3 py-1.5 text-xs font-semibold ${u.is_active ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-green-200 text-accent-700 hover:bg-green-50'}`}>
                     {u.is_active ? 'Deactivate' : 'Activate'}
                   </button>
                 </td>

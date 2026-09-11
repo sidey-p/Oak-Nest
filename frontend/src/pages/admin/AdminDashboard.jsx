@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api, { errorMessage } from '../../services/api';
-import { Alert, Spinner, STATUS_BADGE, Badge } from '../../components/common/UI';
+import { Alert, Spinner, STATUS_BADGE, Badge, FeatureFlag } from '../../components/common/UI';
 import { formatPrice, formatDate } from '../../utils/format';
 
-const StatCard = ({ label, value, icon, tone, to }) => (
-  <Link to={to || '#'} className="rounded-2xl border border-brand-200 bg-white p-5 transition hover:shadow-md">
+const StatCard = ({ label, value, icon, tone, to, i = 0 }) => (
+  <Link to={to || '#'} className="card-lift reveal rounded-2xl border border-brand-200 bg-white p-5 shadow-soft" style={{ animationDelay: `${i * 40}ms` }}>
     <div className="flex items-center justify-between">
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-brand-400">{label}</p>
@@ -34,24 +34,27 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-serif text-2xl font-bold text-brand-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-brand-500">Overview of your store — all data from the local database.</p>
+      <div className="reveal flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="font-serif text-2xl font-bold text-brand-900">Dashboard</h1>
+          <p className="mt-1 text-sm text-brand-500">Overview of your store — all data from the local database.</p>
+        </div>
+        <FeatureFlag label="Live analytics refresh — add feature" />
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total Sales" value={formatPrice(stats.total_sales)} icon="💰" tone="bg-green-100" />
-        <StatCard label="Orders" value={stats.total_orders} icon="📦" tone="bg-blue-100" to="/admin/orders" />
-        <StatCard label="Customers" value={stats.total_customers} icon="👥" tone="bg-purple-100" to="/admin/customers" />
-        <StatCard label="Products" value={stats.total_products} icon="🛋️" tone="bg-amber-100" to="/admin/products" />
-        <StatCard label="Pending Orders" value={stats.pending_orders} icon="⏳" tone="bg-amber-100" to="/admin/orders" />
-        <StatCard label="Low Stock Items" value={stats.low_stock_products} icon="⚠️" tone="bg-red-100" to="/admin/products" />
-        <StatCard label="Reviews Awaiting" value={stats.pending_reviews} icon="⭐" tone="bg-yellow-100" to="/admin/reviews" />
-        <StatCard label="Design Requests" value={stats.open_design_requests} icon="🎨" tone="bg-pink-100" to="/admin/custom-requests" />
+        <StatCard i={0} label="Total Sales" value={formatPrice(stats.total_sales)} icon="💰" tone="bg-accent-50 text-accent-700" />
+        <StatCard i={1} label="Orders" value={stats.total_orders} icon="📦" tone="bg-blue-100" to="/admin/orders" />
+        <StatCard i={2} label="Customers" value={stats.total_customers} icon="👥" tone="bg-purple-100" to="/admin/customers" />
+        <StatCard i={3} label="Products" value={stats.total_products} icon="🛋️" tone="bg-gold-300/40 text-gold-600" to="/admin/products" />
+        <StatCard i={4} label="Pending Orders" value={stats.pending_orders} icon="⏳" tone="bg-gold-300/40 text-gold-600" to="/admin/orders" />
+        <StatCard i={5} label="Low Stock Items" value={stats.low_stock_products} icon="⚠️" tone="bg-red-100" to="/admin/products" />
+        <StatCard i={6} label="Reviews Awaiting" value={stats.pending_reviews} icon="⭐" tone="bg-yellow-100" to="/admin/reviews" />
+        <StatCard i={7} label="Design Requests" value={stats.open_design_requests} icon="🎨" tone="bg-pink-100" to="/admin/custom-requests" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-2xl border border-brand-200 bg-white p-6">
+        <section className="reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
           <h2 className="font-serif text-lg font-bold text-brand-900">Sales by Category</h2>
           <div className="mt-4 space-y-3">
             {sales_by_category.map((c) => (
@@ -61,7 +64,7 @@ const AdminDashboard = () => {
                   <span className="text-brand-500">{formatPrice(c.revenue)}</span>
                 </div>
                 <div className="mt-1 h-2.5 rounded-full bg-brand-100">
-                  <div className="h-full rounded-full bg-gradient-to-r from-brand-600 to-brand-400"
+                  <div className="h-full rounded-full bg-gradient-to-r from-accent-600 to-gold-400 transition-all duration-700"
                     style={{ width: `${(Number(c.revenue) / maxRevenue) * 100}%` }} />
                 </div>
               </div>
@@ -69,7 +72,7 @@ const AdminDashboard = () => {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-brand-200 bg-white p-6">
+        <section className="reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft" style={{ animationDelay: '100ms' }}>
           <h2 className="font-serif text-lg font-bold text-brand-900">Top Products</h2>
           <div className="mt-4 space-y-3">
             {top_products.length === 0 && <p className="text-sm text-brand-400">No sales data yet.</p>}
@@ -88,10 +91,10 @@ const AdminDashboard = () => {
         </section>
       </div>
 
-      <section className="rounded-2xl border border-brand-200 bg-white p-6">
+      <section className="reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
         <div className="flex items-center justify-between">
           <h2 className="font-serif text-lg font-bold text-brand-900">Recent Orders</h2>
-          <Link to="/admin/orders" className="text-xs font-semibold text-accent-600 hover:underline">View all →</Link>
+          <Link to="/admin/orders" className="underline-grow text-xs font-semibold text-accent-600">View all →</Link>
         </div>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-sm">

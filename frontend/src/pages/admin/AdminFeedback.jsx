@@ -43,7 +43,7 @@ const AdminFeedback = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Feedback</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Feedback</h1>
           <p className="text-sm text-brand-500">{items.length} messages from customers</p>
         </div>
         <select value={filter} onChange={(e) => setFilter(e.target.value)}
@@ -55,7 +55,7 @@ const AdminFeedback = () => {
 
       <div className="space-y-4">
         {items.map((f) => (
-          <div key={f.id} className="rounded-2xl border border-brand-200 bg-white p-5">
+          <div key={f.id} className="card-lift reveal rounded-2xl border border-brand-200 bg-white p-5 shadow-soft">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-brand-900">{f.subject}</p>
@@ -66,8 +66,8 @@ const AdminFeedback = () => {
             <p className="mt-3 rounded-xl bg-brand-50 p-3 text-sm text-brand-700">{f.message}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {f.status === 'new' && <button onClick={() => setStatus(f, 'read')} className="rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-50">Mark Read</button>}
-              {f.status !== 'resolved' && <button onClick={() => setStatus(f, 'resolved')} className="rounded-lg border border-green-200 px-3 py-1.5 text-xs font-semibold text-green-700 hover:bg-green-50">Resolve</button>}
-              <button onClick={() => remove(f)} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
+              {f.status !== 'resolved' && <button onClick={() => setStatus(f, 'resolved')} className="rounded-lg border border-green-200 px-3 py-1.5 text-xs font-semibold text-accent-700 hover:bg-green-50">Resolve</button>}
+              <button onClick={() => remove(f)} className="rounded-full border border-red-200 transition hover:bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
             </div>
           </div>
         ))}

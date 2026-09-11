@@ -27,7 +27,7 @@ const CustomDesign = () => {
   const [busy, setBusy] = useState(false);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-  const input = 'mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none focus:border-accent-500';
+  const input = 'mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none transition-all focus:border-accent-500 focus:shadow-glow';
 
   const submit = async (e) => {
     e.preventDefault();
@@ -50,9 +50,10 @@ const CustomDesign = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <div className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-accent-600">Bespoke Furniture</p>
+    <div className="relative mx-auto max-w-3xl overflow-hidden px-4 py-12 sm:px-6">
+      <div className="pointer-events-none absolute -top-16 right-0 h-72 w-72 rounded-full bg-gold-300/20 blur-3xl" />
+      <div className="reveal text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent-600">Bespoke Furniture</p>
         <h1 className="mt-3 font-serif text-4xl font-bold text-brand-900">Custom Design Request</h1>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-brand-500">
           Tell us about your dream furniture — dimensions, material, color, budget — and our craftsmen will craft it for you.
@@ -62,7 +63,7 @@ const CustomDesign = () => {
 
       {msg && <div className="mt-6"><Alert type={msg.type}>{msg.text}</Alert></div>}
 
-      <form onSubmit={submit} className="mt-8 grid gap-5 rounded-2xl border border-brand-200 bg-white p-8 shadow-sm sm:grid-cols-2">
+      <form onSubmit={submit} className="reveal relative mt-8 grid gap-5 rounded-2xl border border-brand-200 bg-white p-8 shadow-lift sm:grid-cols-2" style={{ animationDelay: '100ms' }}>
         <div><label className="text-sm font-semibold">Your name *</label><input required value={form.name} onChange={set('name')} className={input} /></div>
         <div><label className="text-sm font-semibold">Email *</label><input type="email" required value={form.email} onChange={set('email')} className={input} /></div>
         <div><label className="text-sm font-semibold">Phone</label><input value={form.phone} onChange={set('phone')} placeholder="+91 ..." className={input} /></div>
@@ -92,7 +93,7 @@ const CustomDesign = () => {
             placeholder="Tell us about the style, storage needs, fabric preferences, inspiration links..." />
         </div>
         <div className="sm:col-span-2">
-          <button disabled={busy} className="w-full rounded-xl bg-brand-800 py-4 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">
+          <button disabled={busy} className="btn-shine w-full rounded-full bg-brand-900 py-4 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md disabled:opacity-50">
             {busy ? 'Submitting...' : 'Submit Request'}
           </button>
           <p className="mt-3 text-center text-xs text-brand-400">Our design team responds within 48 hours with a quotation.</p>

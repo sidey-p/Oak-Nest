@@ -41,7 +41,7 @@ const AdminProducts = () => {
       .catch(() => {});
   }, []);
 
-  const input = 'mt-1.5 w-full rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500';
+  const input = 'mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500';
 
   const startEdit = (p) => {
     setEditing(p);
@@ -107,17 +107,17 @@ const AdminProducts = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Products</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Products</h1>
           <p className="text-sm text-brand-500">{products.length} products in catalog</p>
         </div>
         <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products..."
-          className="w-64 rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500" />
+          className="w-64 rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
       </div>
 
       {error && <Alert>{error}</Alert>}
       {msg && <Alert type={msg.type}>{msg.text}</Alert>}
 
-      <form onSubmit={submit} className="rounded-2xl border border-brand-200 bg-white p-6">
+      <form onSubmit={submit} className="reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
         <h2 className="font-serif text-lg font-bold">{editing ? `Edit: ${editing.name}` : 'Add New Product'}</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-2"><label className="text-xs font-semibold text-brand-700">Name *</label><input required minLength="3" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={input} /></div>
@@ -146,7 +146,7 @@ const AdminProducts = () => {
           <div className="lg:col-span-3"><label className="text-xs font-semibold text-brand-700">Description</label><textarea rows="3" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className={input} /></div>
         </div>
         <div className="mt-4 flex gap-3">
-          <button disabled={busy} className="rounded-xl bg-brand-800 px-8 py-2.5 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">
+          <button disabled={busy} className="btn-shine rounded-full bg-brand-900 px-8 py-2.5 text-sm font-bold text-white transition-all hover:bg-brand-800 hover:shadow-md disabled:opacity-50">
             {busy ? 'Saving...' : editing ? 'Update Product' : 'Create Product'}
           </button>
           {editing && (
@@ -189,8 +189,8 @@ const AdminProducts = () => {
                 <td className="p-4"><Badge color={p.status === 'active' ? 'green' : p.status === 'draft' ? 'amber' : 'gray'}>{p.status}</Badge></td>
                 <td className="p-4">
                   <div className="flex gap-2">
-                    <button onClick={() => startEdit(p)} className="rounded-lg border border-brand-300 px-3 py-1.5 text-xs font-semibold hover:bg-brand-100">Edit</button>
-                    <button onClick={() => remove(p)} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
+                    <button onClick={() => startEdit(p)} className="rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-1.5 text-xs font-semibold hover:bg-brand-100">Edit</button>
+                    <button onClick={() => remove(p)} className="rounded-full border border-red-200 transition hover:bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
                   </div>
                 </td>
               </tr>

@@ -131,6 +131,7 @@ test('CUSTOMER FLOW — simulated card payment + review', async ({ page }) => {
   await page.goto('/products/halo-pendant-light');
   await page.getByRole('button', { name: 'Add to Cart' }).click();
   await expect(page.getByText('Added to cart', { exact: false })).toBeVisible();
+  await expect(page.locator('a[aria-label="Cart"] span')).toBeVisible();
 
   // Add an address inline at checkout
   await page.goto('/checkout');

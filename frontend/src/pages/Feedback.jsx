@@ -39,31 +39,31 @@ const Feedback = () => {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-      <div className="text-center">
+      <div className="reveal text-center">
         <h1 className="font-serif text-3xl font-bold text-brand-900">Feedback</h1>
         <p className="mt-2 text-sm text-brand-500">Tell us what you love or what we can do better.</p>
       </div>
 
       {!user ? (
-        <div className="mt-8 rounded-2xl border border-brand-200 bg-white p-8 text-center">
-          <p className="text-sm text-brand-600"><Link to="/login" className="font-semibold text-accent-600 underline">Login</Link> to submit feedback.</p>
+        <div className="reveal mt-8 rounded-2xl border border-brand-200 bg-white p-8 text-center shadow-soft">
+          <p className="text-sm text-brand-600"><Link to="/login" className="underline-grow font-semibold text-accent-600">Login</Link> to submit feedback.</p>
         </div>
       ) : (
         <>
           {msg && <div className="mt-6"><Alert type={msg.type}>{msg.text}</Alert></div>}
 
-          <form onSubmit={submit} className="mt-8 space-y-4 rounded-2xl border border-brand-200 bg-white p-8">
+          <form onSubmit={submit} className="reveal mt-8 space-y-4 rounded-2xl border border-brand-200 bg-white p-8 shadow-lift">
             <div>
               <label className="text-sm font-semibold">Subject</label>
               <input required minLength="3" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                placeholder="Delivery experience, product quality, website..." className="mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none focus:border-accent-500" />
+                placeholder="Delivery experience, product quality, website..." className="mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none transition-all focus:border-accent-500 focus:shadow-glow" />
             </div>
             <div>
               <label className="text-sm font-semibold">Message</label>
               <textarea required minLength="10" rows="5" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none focus:border-accent-500" />
+                className="mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none transition-all focus:border-accent-500 focus:shadow-glow" />
             </div>
-            <button disabled={busy} className="rounded-xl bg-brand-800 px-8 py-3 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">
+            <button disabled={busy} className="btn-shine rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md disabled:opacity-50">
               {busy ? 'Sending...' : 'Submit Feedback'}
             </button>
           </form>
@@ -73,7 +73,7 @@ const Feedback = () => {
               <h2 className="font-serif text-xl font-bold">Your previous feedback</h2>
               <div className="mt-4 space-y-3">
                 {mine.map((f) => (
-                  <div key={f.id} className="rounded-xl border border-brand-200 bg-white p-4 text-sm">
+                  <div key={f.id} className="card-lift rounded-xl border border-brand-200 bg-white p-4 text-sm shadow-soft">
                     <div className="flex justify-between">
                       <span className="font-semibold">{f.subject}</span>
                       <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-bold uppercase">{f.status}</span>

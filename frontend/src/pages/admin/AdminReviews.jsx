@@ -48,7 +48,7 @@ const AdminReviews = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Reviews</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Reviews</h1>
           <p className="text-sm text-brand-500">{reviews.length} reviews — moderate before they appear on the storefront</p>
         </div>
         <select value={filter} onChange={(e) => setFilter(e.target.value)}
@@ -60,7 +60,7 @@ const AdminReviews = () => {
 
       <div className="space-y-4">
         {reviews.map((r) => (
-          <div key={r.id} className="rounded-2xl border border-brand-200 bg-white p-5">
+          <div key={r.id} className="card-lift reveal rounded-2xl border border-brand-200 bg-white p-5 shadow-soft">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-brand-900">{r.product_name}</p>
@@ -71,9 +71,9 @@ const AdminReviews = () => {
             </div>
             {r.comment && <p className="mt-3 rounded-xl bg-brand-50 p-3 text-sm text-brand-700">"{r.comment}"</p>}
             <div className="mt-4 flex flex-wrap gap-2">
-              {r.status !== 'approved' && <button onClick={() => moderate(r, 'approved')} className="rounded-lg border border-green-200 px-3 py-1.5 text-xs font-semibold text-green-700 hover:bg-green-50">Approve</button>}
+              {r.status !== 'approved' && <button onClick={() => moderate(r, 'approved')} className="rounded-lg border border-green-200 px-3 py-1.5 text-xs font-semibold text-accent-700 hover:bg-green-50">Approve</button>}
               {r.status !== 'hidden' && <button onClick={() => moderate(r, 'hidden')} className="rounded-lg border border-amber-200 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-50">Hide</button>}
-              <button onClick={() => remove(r)} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
+              <button onClick={() => remove(r)} className="rounded-full border border-red-200 transition hover:bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
             </div>
           </div>
         ))}

@@ -28,9 +28,9 @@ const AdminPayments = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Payments</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Payments</h1>
           <p className="text-sm text-brand-500">
-            Collected: <span className="font-bold text-green-700">{formatPrice(totalCollected)}</span>
+            Collected: <span className="font-bold text-accent-700">{formatPrice(totalCollected)}</span>
             {' · '}Pending (COD): <span className="font-bold text-amber-700">{formatPrice(pendingCod)}</span>
           </p>
         </div>

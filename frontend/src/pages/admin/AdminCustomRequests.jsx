@@ -45,7 +45,7 @@ const AdminCustomRequests = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl font-bold text-brand-900">Custom Design Requests</h1>
+      <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Custom Design Requests</h1>
 
       {edit && (
         <form onSubmit={save} className="space-y-4 rounded-2xl border-2 border-accent-500 bg-white p-6">
@@ -54,18 +54,18 @@ const AdminCustomRequests = () => {
             <div>
               <label className="text-xs font-semibold text-brand-700">Status</label>
               <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}
-                className="mt-1.5 w-full rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500">
+                className="mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500">
                 {STATUSES.map((s) => <option key={s} value={s}>{titleize(s)}</option>)}
               </select>
             </div>
             <div>
               <label className="text-xs font-semibold text-brand-700">Admin notes (visible to customer)</label>
               <textarea rows="3" value={form.admin_notes} onChange={(e) => setForm({ ...form, admin_notes: e.target.value })}
-                className="mt-1.5 w-full rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500" />
+                className="mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
             </div>
           </div>
           <div className="flex gap-3">
-            <button disabled={busy} className="rounded-xl bg-brand-800 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-700">Save</button>
+            <button disabled={busy} className="btn-shine rounded-full bg-brand-900 px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-brand-800 hover:shadow-md">Save</button>
             <button type="button" onClick={() => setEdit(null)} className="rounded-xl border border-brand-300 px-6 py-2.5 text-sm font-semibold">Cancel</button>
           </div>
         </form>
@@ -73,7 +73,7 @@ const AdminCustomRequests = () => {
 
       <div className="space-y-4">
         {requests.map((r) => (
-          <div key={r.id} className="rounded-2xl border border-brand-200 bg-white p-5">
+          <div key={r.id} className="card-lift reveal rounded-2xl border border-brand-200 bg-white p-5 shadow-soft">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-brand-900">{r.name} <span className="text-xs font-normal text-brand-400">({r.email})</span></p>
@@ -87,7 +87,7 @@ const AdminCustomRequests = () => {
             {r.reference_image && <img src={r.reference_image} alt="Reference" className="mt-3 h-32 w-48 rounded-xl border border-brand-200 object-cover" />}
             {r.admin_notes && <p className="mt-3 rounded-xl bg-accent-500/10 p-3 text-xs text-brand-700"><strong>Notes:</strong> {r.admin_notes}</p>}
             <button onClick={() => { setEdit(r); setForm({ status: r.status, admin_notes: r.admin_notes || '' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="mt-4 rounded-lg border border-brand-300 px-4 py-2 text-xs font-semibold hover:bg-brand-50">
+              className="mt-4 rounded-full border border-brand-300 transition hover:border-accent-500 px-4 py-2 text-xs font-semibold hover:bg-brand-50">
               Update Status & Notes
             </button>
           </div>

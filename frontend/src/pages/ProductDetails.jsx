@@ -10,7 +10,7 @@ const Stars = ({ n, onChange, readOnly }) => (
   <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map((i) => (
       <button key={i} type="button" disabled={readOnly} onClick={() => onChange?.(i)}
-        className={`text-2xl ${i <= n ? 'text-amber-500' : 'text-brand-200'} ${readOnly ? '' : 'transition hover:scale-110'}`}>
+        className={`text-2xl transition-transform ${i <= n ? 'text-gold-500' : 'text-brand-200'} ${readOnly ? '' : 'hover:scale-125'}`}>
         ★
       </button>
     ))}
@@ -101,25 +101,25 @@ const ProductDetails = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <nav className="text-xs text-brand-500">
-        <Link to="/products" className="hover:text-accent-600">Shop</Link>
+      <nav className="animate-fade-in text-xs text-brand-500">
+        <Link to="/products" className="underline-grow hover:text-accent-600">Shop</Link>
         {' / '}
-        <Link to={`/products?category=${product.category_slug}`} className="hover:text-accent-600">{product.category_name}</Link>
+        <Link to={`/products?category=${product.category_slug}`} className="underline-grow hover:text-accent-600">{product.category_name}</Link>
         {' / '}
         <span className="text-brand-800">{product.name}</span>
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        <div>
-          <div className="overflow-hidden rounded-2xl border border-brand-200 bg-white">
+        <div className="reveal">
+          <div className="group overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
             <img src={images[activeImage]?.image_url || product.main_image} alt={product.name}
-              className="aspect-[4/3] w-full object-cover" />
+              className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           {images.length > 1 && (
             <div className="mt-3 flex gap-3">
               {images.map((img, i) => (
                 <button key={img.id || i} onClick={() => setActiveImage(i)}
-                  className={`h-20 w-24 overflow-hidden rounded-xl border-2 ${i === activeImage ? 'border-accent-600' : 'border-transparent'}`}>
+                  className={`h-20 w-24 overflow-hidden rounded-xl border-2 transition-all ${i === activeImage ? 'border-accent-600 shadow-glow' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                   <img src={img.image_url} alt="" className="h-full w-full object-cover" />
                 </button>
               ))}
@@ -127,7 +127,7 @@ const ProductDetails = () => {
           )}
         </div>
 
-        <div>
+        <div className="reveal" style={{ animationDelay: '100ms' }}>
           <div className="flex items-center gap-3">
             <Badge>{product.brand}</Badge>
             {product.stock > 0
@@ -160,22 +160,22 @@ const ProductDetails = () => {
           </dl>
 
           <div className="mt-7 flex flex-wrap items-center gap-4">
-            <div className="flex items-center rounded-xl border border-brand-300 bg-white">
-              <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-3 text-lg text-brand-600 hover:text-brand-900">−</button>
+            <div className="flex items-center rounded-full border border-brand-300 bg-white shadow-soft">
+              <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-3 text-lg text-brand-600 transition hover:text-brand-900">−</button>
               <span className="w-10 text-center font-semibold">{qty}</span>
-              <button onClick={() => setQty(Math.min(product.stock || 99, qty + 1))} className="px-4 py-3 text-lg text-brand-600 hover:text-brand-900">+</button>
+              <button onClick={() => setQty(Math.min(product.stock || 99, qty + 1))} className="px-4 py-3 text-lg text-brand-600 transition hover:text-brand-900">+</button>
             </div>
             <button onClick={handleAdd} disabled={outOfStock}
-              className="flex-1 min-w-[180px] rounded-xl bg-brand-800 px-8 py-3.5 font-semibold text-white hover:bg-brand-700 disabled:opacity-40">
+              className="btn-shine flex-1 min-w-[180px] rounded-full bg-brand-900 px-8 py-3.5 font-semibold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md disabled:opacity-40">
               Add to Cart
             </button>
             <button onClick={handleWishlist} disabled={!user}
-              className="rounded-xl border border-brand-300 bg-white px-5 py-3.5 font-medium hover:border-red-300 hover:text-red-500 disabled:opacity-40"
+              className="rounded-full border border-brand-300 bg-white px-5 py-3.5 font-medium transition hover:border-red-300 hover:text-red-500 disabled:opacity-40"
               title={user ? 'Save to wishlist' : 'Login to save'}>
               ♥ Wishlist
             </button>
           </div>
-          {actionMsg && <p className="mt-3 text-sm font-medium text-accent-600">{actionMsg}</p>}
+          {actionMsg && <p className="mt-3 animate-fade-up text-sm font-medium text-accent-600">{actionMsg}</p>}
           {!user && <p className="mt-3 text-xs text-brand-400"><Link to="/login" className="underline">Login</Link> to add items to cart & wishlist.</p>}
         </div>
       </div>
@@ -185,7 +185,7 @@ const ProductDetails = () => {
         <div className="flex items-center justify-between">
           <h2 className="font-serif text-2xl font-bold text-brand-900">Customer Reviews</h2>
           {user && !showReviewForm && (
-            <button onClick={() => setShowReviewForm(true)} className="rounded-lg border border-brand-300 bg-white px-5 py-2 text-sm font-semibold hover:border-accent-500">
+            <button onClick={() => setShowReviewForm(true)} className="rounded-full border border-brand-300 bg-white px-5 py-2 text-sm font-semibold transition hover:border-accent-500 hover:shadow-soft">
               Write a Review
             </button>
           )}
@@ -196,21 +196,21 @@ const ProductDetails = () => {
         )}
 
         {showReviewForm && (
-          <form onSubmit={submitReview} className="mt-6 rounded-2xl border border-brand-200 bg-white p-6">
+          <form onSubmit={submitReview} className="reveal mt-6 rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
             <label className="text-sm font-semibold text-brand-800">Your rating</label>
             <div className="mt-2"><Stars n={reviewRating} onChange={setReviewRating} /></div>
             <textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} rows="4"
               placeholder="Share your experience with this product..."
               className="mt-4 w-full rounded-xl border border-brand-300 p-3 text-sm outline-none focus:border-accent-500" />
             <div className="mt-4 flex gap-3">
-              <button className="rounded-lg bg-brand-800 px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-700">Submit Review</button>
-              <button type="button" onClick={() => setShowReviewForm(false)} className="rounded-lg border border-brand-300 px-6 py-2.5 text-sm">Cancel</button>
+              <button className="btn-shine rounded-full bg-brand-900 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800">Submit Review</button>
+              <button type="button" onClick={() => setShowReviewForm(false)} className="rounded-full border border-brand-300 px-6 py-2.5 text-sm transition hover:bg-brand-50">Cancel</button>
             </div>
           </form>
         )}
 
         <div className="mt-6 grid gap-4 lg:grid-cols-[280px_1fr]">
-          <div className="rounded-2xl border border-brand-200 bg-white p-6 h-fit">
+          <div className="reveal rounded-2xl border border-brand-200 bg-white p-6 h-fit shadow-soft">
             <div className="text-center">
               <div className="text-4xl font-bold text-brand-900">{reviews.stats.avg_rating}</div>
               <Stars n={Math.round(Number(reviews.stats.avg_rating))} readOnly />
@@ -221,7 +221,7 @@ const ProductDetails = () => {
                 <div key={r} className="flex items-center gap-2 text-xs">
                   <span className="w-3">{r}</span>
                   <div className="h-2 flex-1 rounded-full bg-brand-100">
-                    <div className="h-full rounded-full bg-amber-500"
+                    <div className="h-full rounded-full bg-gold-500 transition-all duration-700"
                       style={{ width: `${reviews.stats.total ? ((reviews.stats.distribution[r] || 0) / reviews.stats.total) * 100 : 0}%` }} />
                   </div>
                   <span className="w-6 text-right text-brand-500">{reviews.stats.distribution?.[r] || 0}</span>
@@ -233,7 +233,7 @@ const ProductDetails = () => {
           <div className="space-y-4">
             {reviews.reviews.length === 0 && <p className="rounded-2xl border border-dashed border-brand-300 bg-white p-8 text-center text-sm text-brand-500">No reviews yet. Be the first to review!</p>}
             {reviews.reviews.map((r) => (
-              <div key={r.id} className="rounded-2xl border border-brand-200 bg-white p-5">
+              <div key={r.id} className="card-lift rounded-2xl border border-brand-200 bg-white p-5 shadow-soft">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-200 text-sm font-bold text-brand-700">

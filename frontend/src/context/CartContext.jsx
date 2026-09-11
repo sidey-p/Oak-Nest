@@ -9,10 +9,12 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({ items: [], totals: { subtotal: 0, tax: 0, shipping: 0, total: 0 } });
   const [wishCount, setWishCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [cartReady, setCartReady] = useState(false);
 
   const refreshCart = useCallback(async () => {
     if (!user) {
       setCart({ items: [], totals: { subtotal: 0, tax: 0, shipping: 0, total: 0 } });
+      setCartReady(true);
       return;
     }
     try {
@@ -20,6 +22,8 @@ export const CartProvider = ({ children }) => {
       setCart({ items: data.items, totals: data.totals });
     } catch {
       // silent
+    } finally {
+      setCartReady(true);
     }
   }, [user]);
 
@@ -83,7 +87,7 @@ export const CartProvider = ({ children }) => {
   const cartCount = cart.items.reduce((s, i) => s + i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, cartCount, wishCount, loading, addToCart, updateQuantity, removeItem, clearCart, refreshCart, toggleWishlist, removeFromWishlist }}>
+    <CartContext.Provider value={{ cart, cartCount, wishCount, loading, cartReady, addToCart, updateQuantity, removeItem, clearCart, refreshCart, toggleWishlist, removeFromWishlist }}>
       {children}
     </CartContext.Provider>
   );

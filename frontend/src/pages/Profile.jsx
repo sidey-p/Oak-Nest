@@ -97,17 +97,17 @@ const Profile = () => {
 
   if (loading) return <div className="min-h-[50vh] grid place-items-center"><Spinner /></div>;
 
-  const input = 'mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none focus:border-accent-500';
+  const input = 'mt-1.5 w-full rounded-xl border border-brand-300 px-4 py-3 text-sm outline-none transition-all focus:border-accent-500 focus:shadow-glow';
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <h1 className="font-serif text-3xl font-bold text-brand-900">My Profile</h1>
+      <h1 className="reveal font-serif text-3xl font-bold text-brand-900">My Profile</h1>
       <p className="mt-1 text-sm text-brand-500">{user?.email}</p>
 
-      <div className="mt-8 flex gap-1 rounded-xl bg-brand-100 p-1">
+      <div className="reveal mt-8 flex gap-1 overflow-x-auto rounded-full bg-brand-100 p-1">
         {TABS.map((t, i) => (
           <button key={t} onClick={() => setTab(i)}
-            className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold sm:text-sm transition ${tab === i ? 'bg-white shadow text-brand-900' : 'text-brand-500 hover:text-brand-800'}`}>
+            className={`flex-1 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold sm:text-sm transition-all duration-300 ${tab === i ? 'bg-white shadow-soft text-brand-900 scale-[1.02]' : 'text-brand-500 hover:text-brand-800'}`}>
             {t}
           </button>
         ))}
@@ -115,7 +115,7 @@ const Profile = () => {
 
       <div className="mt-8">
         {tab === 0 && (
-          <form onSubmit={saveProfile} className="max-w-md space-y-5 rounded-2xl border border-brand-200 bg-white p-6">
+          <form onSubmit={saveProfile} className="max-w-md space-y-5 reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
             <div className="grid grid-cols-2 gap-4">
               <div><label className="text-sm font-semibold">First name</label><input required value={profile.first_name} onChange={(e) => setProfile({ ...profile, first_name: e.target.value })} className={input} /></div>
               <div><label className="text-sm font-semibold">Last name</label><input required value={profile.last_name} onChange={(e) => setProfile({ ...profile, last_name: e.target.value })} className={input} /></div>
@@ -123,7 +123,7 @@ const Profile = () => {
             <div><label className="text-sm font-semibold">Phone</label><input value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} className={input} /></div>
             <div><label className="text-sm font-semibold">Email</label><input disabled value={user?.email || ''} className={`${input} bg-brand-50 text-brand-400`} /></div>
             {profileMsg && <Alert type={profileMsg.type}>{profileMsg.text}</Alert>}
-            <button className="rounded-xl bg-brand-800 px-8 py-3 text-sm font-bold text-white hover:bg-brand-700">Save Changes</button>
+            <button className="btn-shine rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md">Save Changes</button>
           </form>
         )}
 
@@ -131,22 +131,22 @@ const Profile = () => {
           <div className="space-y-4">
             {addrMsg && <Alert type={addrMsg.type}>{addrMsg.text}</Alert>}
             {addresses.map((a) => (
-              <div key={a.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand-200 bg-white p-5">
+              <div key={a.id} className="card-lift flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand-200 bg-white p-5 shadow-soft">
                 <div className="text-sm">
-                  <p className="font-semibold">{a.full_name} {a.is_default && <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">DEFAULT</span>}</p>
+                  <p className="font-semibold">{a.full_name} {a.is_default && <span className="ml-2 rounded-full bg-accent-50 px-2 py-0.5 text-[10px] font-bold text-accent-700">DEFAULT</span>}</p>
                   <p className="text-brand-600">{a.address_line1}{a.address_line2 ? `, ${a.address_line2}` : ''}, {a.city}, {a.state} — {a.postal_code}</p>
                   <p className="text-brand-500">{a.phone} · {a.country}</p>
                 </div>
                 <div className="flex gap-2 text-xs">
-                  {!a.is_default && <button onClick={() => setDefault(a.id)} className="rounded-lg border border-brand-300 px-3 py-1.5 font-semibold hover:bg-brand-50">Set Default</button>}
-                  <button onClick={() => setAddrForm(a)} className="rounded-lg border border-brand-300 px-3 py-1.5 font-semibold hover:bg-brand-50">Edit</button>
-                  <button onClick={() => deleteAddress(a.id)} className="rounded-lg border border-red-200 px-3 py-1.5 font-semibold text-red-600 hover:bg-red-50">Delete</button>
+                  {!a.is_default && <button onClick={() => setDefault(a.id)} className="rounded-full border border-brand-300 px-3 py-1.5 font-semibold transition hover:border-accent-500 hover:bg-brand-50">Set Default</button>}
+                  <button onClick={() => setAddrForm(a)} className="rounded-full border border-brand-300 px-3 py-1.5 font-semibold transition hover:border-accent-500 hover:bg-brand-50">Edit</button>
+                  <button onClick={() => deleteAddress(a.id)} className="rounded-full border border-red-200 px-3 py-1.5 font-semibold text-red-600 transition hover:bg-red-50">Delete</button>
                 </div>
               </div>
             ))}
 
             {addrForm ? (
-              <form onSubmit={saveAddress} className="grid gap-4 rounded-2xl border border-brand-200 bg-white p-6 sm:grid-cols-2">
+              <form onSubmit={saveAddress} className="grid gap-4 reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft sm:grid-cols-2">
                 <input required placeholder="Full name" value={addrForm.full_name} onChange={(e) => setAddrForm({ ...addrForm, full_name: e.target.value })} className={input} />
                 <input required placeholder="Phone" value={addrForm.phone} onChange={(e) => setAddrForm({ ...addrForm, phone: e.target.value })} className={input} />
                 <input required placeholder="Address line 1" value={addrForm.address_line1} onChange={(e) => setAddrForm({ ...addrForm, address_line1: e.target.value })} className={`${input} sm:col-span-2`} />
@@ -159,8 +159,8 @@ const Profile = () => {
                   <input type="checkbox" checked={addrForm.is_default || false} onChange={(e) => setAddrForm({ ...addrForm, is_default: e.target.checked })} /> Set as default
                 </label>
                 <div className="flex gap-3 sm:col-span-2">
-                  <button className="rounded-xl bg-brand-800 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-700">Save Address</button>
-                  <button type="button" onClick={() => setAddrForm(null)} className="rounded-xl border border-brand-300 px-6 py-2.5 text-sm">Cancel</button>
+                  <button className="btn-shine rounded-full bg-brand-900 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800">Save Address</button>
+                  <button type="button" onClick={() => setAddrForm(null)} className="rounded-full border border-brand-300 px-6 py-2.5 text-sm transition hover:bg-brand-50">Cancel</button>
                 </div>
               </form>
             ) : (
@@ -173,12 +173,12 @@ const Profile = () => {
         )}
 
         {tab === 2 && (
-          <form onSubmit={changePassword} className="max-w-md space-y-5 rounded-2xl border border-brand-200 bg-white p-6">
+          <form onSubmit={changePassword} className="max-w-md space-y-5 reveal rounded-2xl border border-brand-200 bg-white p-6 shadow-soft">
             <div><label className="text-sm font-semibold">Current password</label><input type="password" required value={pwd.current_password} onChange={(e) => setPwd({ ...pwd, current_password: e.target.value })} className={input} /></div>
             <div><label className="text-sm font-semibold">New password</label><input type="password" required minLength="6" value={pwd.new_password} onChange={(e) => setPwd({ ...pwd, new_password: e.target.value })} className={input} /></div>
             <div><label className="text-sm font-semibold">Confirm new password</label><input type="password" required value={pwd.confirm} onChange={(e) => setPwd({ ...pwd, confirm: e.target.value })} className={input} /></div>
             {pwdMsg && <Alert type={pwdMsg.type}>{pwdMsg.text}</Alert>}
-            <button className="rounded-xl bg-brand-800 px-8 py-3 text-sm font-bold text-white hover:bg-brand-700">Change Password</button>
+            <button className="btn-shine rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md">Change Password</button>
           </form>
         )}
 
@@ -186,7 +186,7 @@ const Profile = () => {
           <div className="space-y-4">
             {requests.length === 0 && <p className="rounded-2xl border border-dashed border-brand-300 bg-white p-8 text-center text-sm text-brand-500">No custom design requests yet.</p>}
             {requests.map((r) => (
-              <div key={r.id} className="rounded-2xl border border-brand-200 bg-white p-5 text-sm">
+              <div key={r.id} className="card-lift rounded-2xl border border-brand-200 bg-white p-5 text-sm shadow-soft">
                 <div className="flex justify-between"><span className="font-semibold capitalize">{r.furniture_type} for {r.room_type?.replace(/_/g, ' ')}</span><span className="text-xs rounded-full bg-brand-100 px-2 py-0.5 font-bold uppercase">{r.status.replace(/_/g, ' ')}</span></div>
                 <p className="mt-1 text-xs text-brand-500">{r.dimensions} · {r.material} · Budget ₹{Number(r.budget || 0).toLocaleString('en-IN')}</p>
                 {r.admin_notes && <p className="mt-2 rounded-lg bg-brand-50 p-3 text-xs text-brand-700"><strong>Our notes:</strong> {r.admin_notes}</p>}

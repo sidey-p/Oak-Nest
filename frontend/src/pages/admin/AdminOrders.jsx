@@ -49,12 +49,12 @@ const AdminOrders = () => {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-brand-900">Orders</h1>
+          <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Orders</h1>
           <p className="text-sm text-brand-500">{orders.length} orders</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search order/customer..."
-            className="w-56 rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500" />
+            className="w-56 rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
           <select value={filter} onChange={(e) => setFilter(e.target.value)}
             className="rounded-lg border border-brand-300 bg-white px-3 py-2 text-sm outline-none focus:border-accent-500">
             <option value="">All statuses</option>

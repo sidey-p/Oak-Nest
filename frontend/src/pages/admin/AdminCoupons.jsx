@@ -57,11 +57,11 @@ const AdminCoupons = () => {
 
   if (loading) return <Spinner />;
 
-  const input = 'mt-1.5 w-full rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500';
+  const input = 'mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500';
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl font-bold text-brand-900">Coupons</h1>
+      <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Coupons</h1>
       {msg && <Alert type={msg.type}>{msg.text}</Alert>}
 
       <form onSubmit={submit} className="grid gap-4 rounded-2xl border border-brand-200 bg-white p-6 sm:grid-cols-3 lg:grid-cols-6 sm:items-end">
@@ -89,7 +89,7 @@ const AdminCoupons = () => {
           <input type="date" value={form.expiry_date} onChange={(e) => setForm({ ...form, expiry_date: e.target.value })} className={input} />
         </div>
         <div className="flex gap-2">
-          <button disabled={busy} className="rounded-xl bg-brand-800 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-700 disabled:opacity-50">
+          <button disabled={busy} className="btn-shine rounded-full bg-brand-900 px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-brand-800 hover:shadow-md disabled:opacity-50">
             {editing ? 'Update' : 'Create'}
           </button>
           {editing && <button type="button" onClick={() => { setEditing(null); setForm(empty); }} className="rounded-xl border border-brand-300 px-4 py-2.5 text-sm">Cancel</button>}
@@ -117,11 +117,11 @@ const AdminCoupons = () => {
                   <td className="p-4">
                     <div className="flex gap-2">
                       <button onClick={() => { setEditing(c); setForm({ code: c.code, discount_type: c.discount_type, discount_value: c.discount_value, minimum_order: c.minimum_order, expiry_date: c.expiry_date?.slice(0, 10) || '', status: c.status }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="rounded-lg border border-brand-300 px-3 py-1.5 text-xs font-semibold hover:bg-brand-50">Edit</button>
+                        className="rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-1.5 text-xs font-semibold hover:bg-brand-50">Edit</button>
                       <button onClick={() => toggleStatus(c)} className="rounded-lg border border-amber-200 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-50">
                         {c.status === 'active' ? 'Disable' : 'Enable'}
                       </button>
-                      <button onClick={() => remove(c)} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
+                      <button onClick={() => remove(c)} className="rounded-full border border-red-200 transition hover:bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50">Delete</button>
                     </div>
                   </td>
                 </tr>

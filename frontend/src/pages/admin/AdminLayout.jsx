@@ -21,51 +21,52 @@ const AdminLayout = () => {
 
   return (
     <div className="flex min-h-screen bg-brand-50">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-brand-200 bg-white md:flex">
-        <div className="flex h-16 items-center gap-2 border-b border-brand-200 px-5">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-800 font-serif text-lg text-brand-100">FE</span>
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-brand-800 bg-brand-950 md:flex">
+        <div className="flex h-16 items-center gap-2.5 border-b border-brand-800 px-5">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 font-serif text-lg text-gold-300 shadow-soft">FE</span>
           <div>
-            <p className="text-sm font-bold text-brand-900">Admin</p>
+            <p className="text-sm font-bold text-white">Admin</p>
             <p className="text-[10px] uppercase tracking-wider text-brand-400">Furnishing Essentials</p>
           </div>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-          {LINKS.map(([to, label, path]) => (
+          {LINKS.map(([to, label, path], i) => (
             <NavLink key={to} to={to === '.' ? '/admin' : `/admin/${to}`} end={to === '.'}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition ${isActive ? 'bg-brand-800 text-white' : 'text-brand-700 hover:bg-brand-100'}`}>
-              <svg className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d={path} /></svg>
+                `animate-slide-in-right flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isActive ? 'bg-gradient-to-r from-brand-700 to-brand-800 text-white shadow-soft' : 'text-brand-300 hover:bg-brand-900 hover:text-white'}`}
+              style={{ animationDelay: `${i * 30}ms` }}>
+              <svg className="h-4.5 w-4.5 shrink-0" style={{ width: 18, height: 18 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d={path} /></svg>
               {label}
             </NavLink>
           ))}
         </nav>
-        <div className="border-t border-brand-200 p-4">
+        <div className="border-t border-brand-800 p-4">
           <div className="mb-3 flex items-center gap-3 px-1">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-700 text-xs font-bold text-white">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-xs font-bold text-brand-950">
               {user?.first_name?.[0]}{user?.last_name?.[0]}
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">{user?.first_name} {user?.last_name}</p>
+              <p className="truncate text-sm font-semibold text-white">{user?.first_name} {user?.last_name}</p>
               <p className="truncate text-[10px] text-brand-400">{user?.email}</p>
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => navigate('/')} className="flex-1 rounded-lg border border-brand-300 py-2 text-xs font-semibold hover:bg-brand-50">Storefront</button>
-            <button onClick={() => { logout(); navigate('/'); }} className="flex-1 rounded-lg border border-red-200 py-2 text-xs font-semibold text-red-600 hover:bg-red-50">Logout</button>
+            <button onClick={() => navigate('/')} className="flex-1 rounded-full border border-brand-700 py-2 text-xs font-semibold text-brand-200 transition hover:bg-brand-800">Storefront</button>
+            <button onClick={() => { logout(); navigate('/'); }} className="flex-1 rounded-full border border-red-900 py-2 text-xs font-semibold text-red-400 transition hover:bg-red-950">Logout</button>
           </div>
         </div>
       </aside>
 
       <div className="flex-1">
-        <header className="flex h-16 items-center justify-between border-b border-brand-200 bg-white px-6">
+        <header className="glass-panel flex h-16 items-center justify-between border-b border-brand-200 px-6">
           <p className="font-serif text-lg font-semibold text-brand-900 md:hidden">Admin Panel</p>
           <p className="hidden text-sm text-brand-500 md:block">Signed in as administrator</p>
           <div className="flex gap-2 md:hidden">
-            <button onClick={() => navigate('/')} className="rounded-lg border border-brand-300 px-3 py-1.5 text-xs font-semibold">Store</button>
-            <button onClick={() => { logout(); navigate('/'); }} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600">Logout</button>
+            <button onClick={() => navigate('/')} className="rounded-full border border-brand-300 px-3 py-1.5 text-xs font-semibold">Store</button>
+            <button onClick={() => { logout(); navigate('/'); }} className="rounded-full border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600">Logout</button>
           </div>
         </header>
-        <main className="overflow-x-auto p-6">
+        <main className="animate-fade-in overflow-x-auto p-6">
           <Outlet />
         </main>
       </div>

@@ -51,11 +51,11 @@ const AdminShipments = () => {
   if (loading) return <Spinner />;
   if (error) return <Alert>{error}</Alert>;
 
-  const input = 'mt-1.5 w-full rounded-lg border border-brand-300 px-3 py-2 text-sm outline-none focus:border-accent-500';
+  const input = 'mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500';
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl font-bold text-brand-900">Shipping</h1>
+      <h1 className="reveal font-serif text-2xl font-bold text-brand-900">Shipping</h1>
 
       {edit && (
         <form onSubmit={save} className="grid gap-4 rounded-2xl border-2 border-accent-500 bg-white p-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -71,7 +71,7 @@ const AdminShipments = () => {
           <div><label className="text-xs font-semibold text-brand-700">Current location</label><input value={form.current_location} onChange={(e) => setForm({ ...form, current_location: e.target.value })} className={input} /></div>
           <div><label className="text-xs font-semibold text-brand-700">Est. delivery date</label><input type="date" value={form.estimated_delivery} onChange={(e) => setForm({ ...form, estimated_delivery: e.target.value })} className={input} /></div>
           <div className="col-span-full flex gap-3">
-            <button className="rounded-xl bg-brand-800 px-6 py-2.5 text-sm font-bold text-white hover:bg-brand-700">Save Shipment</button>
+            <button className="btn-shine rounded-full bg-brand-900 px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-brand-800 hover:shadow-md">Save Shipment</button>
             <button type="button" onClick={() => setEdit(null)} className="rounded-xl border border-brand-300 px-6 py-2.5 text-sm font-semibold">Cancel</button>
           </div>
         </form>
@@ -94,7 +94,7 @@ const AdminShipments = () => {
                 <td className="p-4 text-xs">{s.current_location || '—'}</td>
                 <td className="p-4 text-xs">{s.estimated_delivery ? formatDate(s.estimated_delivery) : '—'}</td>
                 <td className="p-4"><Badge color={STATUS_BADGE[s.status]}>{titleize(s.status)}</Badge></td>
-                <td className="p-4"><button onClick={() => startEdit(s)} className="rounded-lg border border-brand-300 px-3 py-1.5 text-xs font-semibold hover:bg-brand-100">Update</button></td>
+                <td className="p-4"><button onClick={() => startEdit(s)} className="rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-1.5 text-xs font-semibold hover:bg-brand-100">Update</button></td>
               </tr>
             ))}
           </tbody>
