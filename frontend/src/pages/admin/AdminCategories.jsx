@@ -69,8 +69,8 @@ const AdminCategories = () => {
             className="mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
         </div>
         <div>
-          <label className="text-xs font-semibold text-brand-700">Image URL</label>
-          <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="http://localhost:5000/uploads/..."
+          <label className="text-xs font-semibold text-brand-700">Image path <span className="font-normal text-brand-400">(/uploads/...)</span></label>
+          <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="/uploads/categories/living-room.svg"
             className="mt-1.5 w-full rounded-full border border-brand-300 transition hover:border-accent-500 px-3 py-2 text-sm outline-none focus:border-accent-500" />
         </div>
         <div>

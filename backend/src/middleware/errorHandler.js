@@ -11,11 +11,6 @@ export const errorHandler = (err, req, res, next) => {
   if (err.code === '23505' || err.code === '23P01') {
     status = 409;
     message = err.detail || 'Duplicate record';
-    try {
-      message = err.detail || err.message;
-    } catch {
-      message = 'Duplicate record';
-    }
   }
 
   if (err.code === '23503') {
@@ -28,8 +23,14 @@ export const errorHandler = (err, req, res, next) => {
     message = 'Value violates a database constraint';
   }
 
-  if (process.env.NODE_ENV !== 'production' && status === 500) {
-    console.error(err);
+  // Always log unexpected errors server-side (visible in Vercel logs),
+  // but never leak internals to the client in production.
+  if (status >= 500) {
+    console.error(`[500] ${req.method} ${req.originalUrl}:`, err.message);
+  }
+
+  if (status >= 500 && process.env.NODE_ENV === 'production') {
+    message = "Something didn't go as planned on our end. Please try again.";
   }
 
   res.status(status).json({ success: false, message });

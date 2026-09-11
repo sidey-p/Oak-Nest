@@ -1,3 +1,5 @@
+import { AlertTriangle, Check, Info } from 'lucide-react';
+
 export const Spinner = ({ label = 'Loading...' }) => (
   <div className="flex flex-col items-center justify-center gap-3 py-16 text-brand-500">
     <div className="relative h-10 w-10">
@@ -14,10 +16,10 @@ export const Alert = ({ type = 'error', children }) => {
     success: 'bg-accent-50 border-accent-400/40 text-accent-700',
     info: 'bg-blue-50 border-blue-200 text-blue-800',
   };
-  const icons = { error: '⚠️', success: '✓', info: 'ℹ️' };
+  const Icon = { error: AlertTriangle, success: Check, info: Info }[type] || Info;
   return (
     <div className={`animate-fade-up flex items-start gap-2.5 rounded-xl border px-4 py-3 text-sm shadow-sm ${styles[type]}`}>
-      <span className="mt-px">{icons[type]}</span>
+      <Icon className="mt-0.5 h-4 w-4 shrink-0" />
       <span>{children}</span>
     </div>
   );

@@ -8,10 +8,10 @@ TRUNCATE TABLE cart_items, carts, wishlist, order_items, payments, shipments,
   feedback, custom_design_requests, coupons, users RESTART IDENTITY CASCADE;
 
 -- ============================================================
--- USERS (passwords: admin123 / customer123 / password123)
+-- USERS (admin password is rotated per-deployment — set via seeding script; customer123 / password123 are demo-only)
 -- ============================================================
 INSERT INTO users (first_name, last_name, email, phone, password, role, is_active) VALUES
-('Admin', 'User', 'admin@furnishing.local', '+91 90000 00001', '$2b$10$Gd3zwWQoA/rAS/lWJ6zj8.O/9jmQOEBQHU21AxyWfxwSqPPdHkL.O', 'admin', TRUE),
+('Admin', 'User', 'admin@furnishing.local', '+91 90000 00001', '$2b$10$M.2Pjx4tEzfb/mccSDV5SOCVSPp6LOPfOYMgY7BKIGfojVufCnjrC', 'admin', TRUE),
 ('Rahul', 'Sharma', 'customer@furnishing.local', '+91 90000 00002', '$2b$10$vSg7iT9I4S2LKfQcMTVI2uYG/ubo6DXUQbSq4NG13CuW/ycbrBTM2', 'customer', TRUE),
 ('Priya', 'Patel', 'priya.patel@example.com', '+91 90000 00003', '$2b$10$qL4NVjMQc55d3ukn8lTODuQIiAiextSgl3FRO7FoTI0c41GjgaQdW', 'customer', TRUE),
 ('Aisha', 'Khan', 'aisha.khan@example.com', '+91 90000 00004', '$2b$10$qL4NVjMQc55d3ukn8lTODuQIiAiextSgl3FRO7FoTI0c41GjgaQdW', 'customer', TRUE),

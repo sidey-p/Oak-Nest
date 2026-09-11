@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "seed": "node scripts/seed-local.mjs"
+    "seed": "node scripts/seed-local.mjs",
+    "rotate-admin": "node scripts/rotate-admin.mjs"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

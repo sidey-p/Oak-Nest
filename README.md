@@ -1,4 +1,4 @@
-# Furnishing Essentials
+﻿# Furnishing Essentials
 
 A full-stack e-commerce application for furnishing products (homes, offices, hotels, villas, restaurants, cafeterias).
 
@@ -19,35 +19,35 @@ A full-stack e-commerce application for furnishing products (homes, offices, hot
 
 ```
 furnishing-essentials/
-├── frontend/            # React + Vite app (localhost:5173)
-├── backend/             # Express API (localhost:5000)
-│   ├── src/
-│   │   ├── config/      # DB pool, env
-│   │   ├── controllers/ # Route handlers
-│   │   ├── middleware/  # auth, errors, upload
-│   │   ├── routes/      # Express routers
-│   │   ├── services/    # Business logic
-│   │   ├── validators/  # Input validation
-│   │   ├── utils/       # Helpers
-│   │   └── app.js
-│   ├── uploads/         # Local images (products/, custom-designs/)
-│   ├── server.js
-│   └── .env
-├── database/            # schema.sql + seed.sql (run in Supabase SQL Editor)
-└── docs/                # plan.md
+â”œâ”€â”€ frontend/            # React + Vite app (localhost:5173)
+â”œâ”€â”€ backend/             # Express API (localhost:5000)
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ config/      # DB pool, env
+â”‚   â”‚   â”œâ”€â”€ controllers/ # Route handlers
+â”‚   â”‚   â”œâ”€â”€ middleware/  # auth, errors, upload
+â”‚   â”‚   â”œâ”€â”€ routes/      # Express routers
+â”‚   â”‚   â”œâ”€â”€ services/    # Business logic
+â”‚   â”‚   â”œâ”€â”€ validators/  # Input validation
+â”‚   â”‚   â”œâ”€â”€ utils/       # Helpers
+â”‚   â”‚   â””â”€â”€ app.js
+â”‚   â”œâ”€â”€ uploads/         # Local images (products/, custom-designs/)
+â”‚   â”œâ”€â”€ server.js
+â”‚   â””â”€â”€ .env
+â”œâ”€â”€ database/            # schema.sql + seed.sql (run in Supabase SQL Editor)
+â””â”€â”€ docs/                # plan.md
 ```
 
 ## Setup
 
 ### 1. Database (Supabase)
 
-**Option A — via the app (recommended, no SQL Editor needed):**
+**Option A â€” via the app (recommended, no SQL Editor needed):**
 
 1. Create the tables: run the contents of `database/schema.sql` once in the Supabase **SQL Editor**
-2. Set your DB password in `backend/.env` (`DB_PASSWORD=...`) — from Supabase Dashboard → Project Settings → Database
+2. Set your DB password in `backend/.env` (`DB_PASSWORD=...`) â€” from Supabase Dashboard â†’ Project Settings â†’ Database
 3. Seed everything: `cd backend && npm run seed`
 
-**Option B — fully manual:**
+**Option B â€” fully manual:**
 
 1. Run `database/schema.sql` in the Supabase SQL Editor
 2. Run `database/fix-identity.sql` (allows seed inserts on identity columns)
@@ -62,7 +62,7 @@ cp .env.example .env   # then edit DB values
 npm run dev
 ```
 
-Backend runs at http://localhost:5000 — verify with http://localhost:5000/api/health
+Backend runs at http://localhost:5000 â€” verify with http://localhost:5000/api/health
 
 ### 3. Frontend
 
@@ -78,7 +78,7 @@ Frontend runs at http://localhost:5173
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | admin@furnishing.local | admin123 |
+| Admin | admin@furnishing.local | (rotated — set via `npm run rotate-admin`, keep private) |
 | Customer | customer@furnishing.local | customer123 |
 
 ## Key Endpoints
@@ -87,7 +87,7 @@ Frontend runs at http://localhost:5173
 - `POST /api/auth/register` / `POST /api/auth/login`
 - `GET /api/products` (search, category, minPrice, maxPrice, material, sort, page)
 - `GET/POST/PUT/DELETE /api/cart` + items
-- `POST /api/orders` (checkout — DB transaction)
+- `POST /api/orders` (checkout â€” DB transaction)
 - `GET /api/orders/:id/tracking` (timeline)
 - Admin: `/api/admin/*` (stats, users, orders, payments, shipments, reviews, coupons, feedback, custom requests)
 

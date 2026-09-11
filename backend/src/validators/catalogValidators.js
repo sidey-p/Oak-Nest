@@ -1,3 +1,11 @@
+const safeImagePath = (value) => {
+  if (value === null || value === undefined || value === '') return null;
+  const v = String(value).trim();
+  if (!v.startsWith('/uploads/')) return undefined; // invalid
+  if (v.includes('..')) return undefined;
+  return v;
+};
+
 export const validateProduct = (body, partial = false) => {
   const errors = [];
   const { name, category_id, price, stock, material, brand, status, discount_price, description } = body;
@@ -34,16 +42,26 @@ export const validateProduct = (body, partial = false) => {
   if (description !== undefined && description !== null && String(description).length > 5000) {
     errors.push('Description too long (max 5000 chars)');
   }
+  if (body.main_image !== undefined && body.main_image !== null && body.main_image !== '') {
+    if (safeImagePath(body.main_image) === undefined) {
+      errors.push('Image must be an uploaded file (use the image upload) or a /uploads/ path');
+    }
+  }
 
   return errors;
 };
 
 export const validateCategory = (body, partial = false) => {
   const errors = [];
-  const { name, description } = body;
+  const { name, description, image } = body;
   if (!partial || name !== undefined) {
     if (!name || String(name).trim().length < 3) errors.push('Category name is required (min 3 chars)');
     if (String(name || '').trim().length > 100) errors.push('Category name too long (max 100 chars)');
+  }
+  if (image !== undefined && image !== null && image !== '') {
+    if (safeImagePath(image) === undefined) {
+      errors.push('Category image must be a /uploads/ path');
+    }
   }
   if (description !== undefined && description !== null && String(description).length > 1000) {
     errors.push('Description too long (max 1000 chars)');

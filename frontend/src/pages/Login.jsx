@@ -74,9 +74,9 @@ const Login = () => {
               New here? <Link to="/register" className="underline-grow font-semibold text-accent-600">Create an account</Link>
             </p>
             <div className="rounded-xl border border-dashed border-brand-300 bg-brand-50 p-4 text-xs text-brand-600">
-              <p className="font-semibold">Demo accounts (after seeding):</p>
-              <p>Admin — admin@furnishing.local / admin123</p>
-              <p>Customer — customer@furnishing.local / customer123</p>
+              <p className="font-semibold">Demo customer account:</p>
+              <p>customer@furnishing.local / customer123</p>
+              <p className="mt-1 text-brand-400">Admin credentials are provided separately and must be kept private.</p>
             </div>
           </form>
         </div>

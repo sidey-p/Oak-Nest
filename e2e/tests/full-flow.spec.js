@@ -162,7 +162,7 @@ test('CUSTOMER FLOW - simulated card payment + review', async ({ page }) => {
 test('ADMIN FLOW - dashboard, order status, review moderation', async ({ page }) => {
   await page.goto('/login');
   await page.getByLabel('Email').fill('admin@furnishing.local');
-  await page.getByLabel('Password', { exact: true }).fill('admin123');
+  await page.getByLabel('Password', { exact: true }).fill(process.env.ADMIN_PASSWORD || 'admin123');
   await page.getByRole('button', { name: 'Login', exact: true }).click();
 
   // Lands on admin dashboard

@@ -1,32 +1,32 @@
-# Furnishing Essentials — Development Plan (Final)
+﻿# Furnishing Essentials â€” Development Plan (Final)
 
 ## Status Summary
 
 - **Project type:** Full-stack e-commerce web application (furnishing products)
-- **Frontend:** React + Vite + Tailwind CSS + React Router + Axios → http://localhost:5173
-- **Backend:** Node.js + Express.js → http://localhost:5000
-- **Database:** Supabase Postgres (project: cdjigtcrbfarbfisjtgu.supabase.co) — schema + seed run manually in the Supabase SQL Editor; backend connects via standard Postgres connection (DB_HOST/DB_PORT/5432, DB_USER=postgres)
+- **Frontend:** React + Vite + Tailwind CSS + React Router + Axios â†’ http://localhost:5173
+- **Backend:** Node.js + Express.js â†’ http://localhost:5000
+- **Database:** Supabase Postgres (project: cdjigtcrbfarbfisjtgu.supabase.co) â€” schema + seed run manually in the Supabase SQL Editor; backend connects via standard Postgres connection (DB_HOST/DB_PORT/5432, DB_USER=postgres)
 - **Deviation from original plan:** Local MySQL was replaced by Supabase Postgres per user decision (2026-09-10). Everything else remains local: Express server, file uploads (backend/uploads), JWT+bcrypt auth with own users table, simulated payments.
-- **Auth:** Own JWT auth (jsonwebtoken) + bcrypt, users table with role ('customer' | 'admin'). Seeded admin: admin@furnishing.local / admin123. Demo customer: customer@furnishing.local / customer123.
-- **Payments:** Simulated — cash_on_delivery + local_test_payment (test card 4111 1111 1111 1111), records stored in payments table.
+- **Auth:** Own JWT auth (jsonwebtoken) + bcrypt, users table with role ('customer' | 'admin'). Seeded admin: admin@furnishing.local / (rotated per deployment — keep private). Demo customer: customer@furnishing.local / customer123.
+- **Payments:** Simulated â€” cash_on_delivery + local_test_payment (test card 4111 1111 1111 1111), records stored in payments table.
 - **Tracking:** shipments table; admin updates status manually; customer sees a timeline.
-- **Reviews:** 1–5 rating, purchase-preferred (one review per user/product), admin moderation (approved/pending/hidden).
+- **Reviews:** 1â€“5 rating, purchase-preferred (one review per user/product), admin moderation (approved/pending/hidden).
 - **Coupons:** percentage/fixed, minimum order, expiry, WELCOME10 / FURNISH20 / FLAT500 seeded.
 
 ## Architecture
 
 ```
 Browser (React SPA :5173)
-   │ REST (Axios) — JWT in Authorization header
-   ▼
+   â”‚ REST (Axios) â€” JWT in Authorization header
+   â–¼
 Express API (:5000)
-   │ SQL via node-postgres (pg) Pool — parameterized queries
-   ▼
+   â”‚ SQL via node-postgres (pg) Pool â€” parameterized queries
+   â–¼
 Supabase Postgres (16 tables: users, addresses, categories, products,
    product_images, carts, cart_items, wishlist, orders, order_items,
    payments, shipments, reviews, coupons, feedback, custom_design_requests)
-   ▲
-Local filesystem — backend/uploads/{products,custom-designs,categories}
+   â–²
+Local filesystem â€” backend/uploads/{products,custom-designs,categories}
    served at http://localhost:5000/uploads/*
 ```
 
@@ -34,7 +34,7 @@ Local filesystem — backend/uploads/{products,custom-designs,categories}
 
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
-| Foundation (server, db pool, errors, health) | done | — | GET /api/health |
+| Foundation (server, db pool, errors, health) | done | â€” | GET /api/health |
 | Auth (register/login/me/profile/password) | done | done | JWT, bcrypt, roles |
 | Categories (CRUD) | done | done | admin-protected writes |
 | Products (CRUD, search, filters, sort, pagination) | done | done | Multer local uploads |
@@ -50,8 +50,8 @@ Local filesystem — backend/uploads/{products,custom-designs,categories}
 
 ## Key Implementation Notes
 
-- Order creation runs inside a single Postgres transaction (BEGIN → lock cart → validate stock → insert order/items/payment/shipment → decrement inventory → clear cart → COMMIT). Failure at any step rolls back completely.
-- Tax 12% of (subtotal − discount); shipping free ≥ ₹5,000, else ₹99. WELCOME10 = 10% off (min order ₹1,000).
+- Order creation runs inside a single Postgres transaction (BEGIN â†’ lock cart â†’ validate stock â†’ insert order/items/payment/shipment â†’ decrement inventory â†’ clear cart â†’ COMMIT). Failure at any step rolls back completely.
+- Tax 12% of (subtotal âˆ’ discount); shipping free â‰¥ â‚¹5,000, else â‚¹99. WELCOME10 = 10% off (min order â‚¹1,000).
 - Uploaded images: unique filenames (timestamp-random), stored under backend/uploads, validated type + 5MB limit, served via express.static.
 - Security: helmet, express-rate-limit (auth routes + general), bcrypt (10 rounds), JWT 7d expiry, role middleware, parameterized queries throughout.
 - .env holds DB password + JWT secret; .env.example committed as template.
@@ -70,5 +70,5 @@ cd frontend && npm install && npm run dev     # http://localhost:5173
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | admin@furnishing.local | admin123 |
+| Admin | admin@furnishing.local | (rotated — keep private) |
 | Customer | customer@furnishing.local | customer123 |
