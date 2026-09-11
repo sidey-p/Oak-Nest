@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { Alert, Spinner } from '../components/common/UI';
 import { formatPrice } from '../utils/format';
 
-const STEPS = ['Address', 'Order Summary', 'Payment', 'Done'];
+const STEPS = ['Delivery Details', 'Review Your Order', 'Payment', 'Order Confirmed'];
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -105,6 +105,7 @@ const Checkout = () => {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <h1 className="reveal font-serif text-3xl font-bold text-brand-900">Checkout</h1>
+      <p className="reveal mt-1 text-sm text-brand-500" style={{ animationDelay: '60ms' }}>You're almost there — your space is about to get better.</p>
 
       <ol className="reveal mt-8 flex items-center">
         {STEPS.map((s, i) => (
@@ -275,8 +276,8 @@ const Checkout = () => {
       {step === 3 && placedOrder && (
         <section className="mt-10 text-center">
           <div className="animate-pop mx-auto grid h-20 w-20 place-items-center rounded-full bg-accent-50 text-4xl text-accent-600 shadow-glow">✓</div>
-          <h2 className="reveal mt-6 font-serif text-3xl font-bold text-brand-900" style={{ animationDelay: '100ms' }}>Order Confirmed!</h2>
-          <p className="reveal mt-2 text-brand-600" style={{ animationDelay: '160ms' }}>Thank you for shopping with Furnishing Essentials.</p>
+          <h2 className="reveal mt-6 font-serif text-3xl font-bold text-brand-900" style={{ animationDelay: '100ms' }}>Your order is confirmed!</h2>
+          <p className="reveal mt-2 text-brand-600" style={{ animationDelay: '160ms' }}>Thank you for choosing Oak &amp; Nest. We'll keep you updated every step of the way.</p>
           <div className="reveal mx-auto mt-6 max-w-md rounded-2xl border border-brand-200 bg-white p-6 text-sm shadow-soft" style={{ animationDelay: '220ms' }}>
             <p className="text-brand-500">Order number</p>
             <p className="text-xl font-bold text-brand-900">{placedOrder.order_number}</p>

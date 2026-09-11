@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api, { errorMessage } from '../services/api';
+import { Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Empty, Spinner } from '../components/common/UI';
 import { formatPrice, effectivePrice } from '../utils/format';
@@ -48,8 +49,8 @@ const Wishlist = () => {
 
       {items.length === 0 ? (
         <div className="mt-10">
-          <Empty icon="♥" title="Your wishlist is empty" subtitle="Save products you love to find them later.">
-            <Link to="/products" className="btn-shine rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md">Discover Products</Link>
+          <Empty icon={<Heart className="h-7 w-7 text-brand-500" />} title="Save the pieces you love." subtitle="Your wishlist is the perfect place to collect ideas for your future space.">
+            <Link to="/products" className="btn-shine rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-800 hover:shadow-md">Explore the Collection →</Link>
           </Empty>
         </div>
       ) : (

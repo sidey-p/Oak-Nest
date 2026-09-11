@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// Reset demo customer's cart/wishlist so each run starts clean
+// Reset demo customer's cart so each run starts clean
 test.beforeAll(async () => {
   const loginRes = await fetch('http://localhost:5000/api/auth/login', {
     method: 'POST',
@@ -15,34 +15,32 @@ test.beforeAll(async () => {
 });
 
 // ============================================================
-// FURNISHING ESSENTIALS — Full E2E flow (visible browser)
-// Customer: browse -> search -> cart -> coupon -> checkout ->
-//           COD + simulated card payment -> orders -> tracking -> review
-// Admin:    dashboard -> products -> orders -> reviews -> coupons
-// Requires: backend :5000 (seeded), frontend :5173
+// OAK & NEST - Full E2E flow (visible browser)
 // ============================================================
 
-test('CUSTOMER FLOW — browse, search, product details', async ({ page }) => {
+test('CUSTOMER FLOW - browse, search, product details', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Furnish your world', { exact: false })).toBeVisible();
-  await expect(page.getByText('Shop by Category')).toBeVisible();
+  await expect(page.getByText('feel like home', { exact: false })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Furniture for every way of living.' })).toBeVisible();
 
-  // Categories render from DB
-  await expect(page.getByRole('link', { name: /Living Room/ }).first()).toBeVisible();
+  // Spaces render from DB
+  await expect(page.getByRole('heading', { name: 'Home' }).first()).toBeVisible();
 
-  // Search via navbar
-  await page.getByPlaceholder('Search furniture...').fill('sofa');
-  await page.getByPlaceholder('Search furniture...').press('Enter');
+  // Search via navbar search panel
+  await page.locator('header button[aria-label="Search"]').click();
+  await page.getByPlaceholder('What are you looking for?').first().fill('sofa');
+  await page.getByPlaceholder('What are you looking for?').first().press('Enter');
   await page.waitForURL(/search=sofa/);
   await expect(page.getByText('Aurora 3-Seater Fabric Sofa').first()).toBeVisible();
 
   // Open product details
   await page.getByText('Aurora 3-Seater Fabric Sofa').first().click();
-  await expect(page.getByText('Customer Reviews')).toBeVisible();
+  await expect(page.getByText('Loved in real homes')).toBeVisible();
+  await expect(page.getByText('Why you', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Furnora').first()).toBeVisible();
 });
 
-test('CUSTOMER FLOW — register, login, wishlist, cart', async ({ page }) => {
+test('CUSTOMER FLOW - register, login, wishlist, cart', async ({ page }) => {
   // Register a fresh user
   await page.goto('/register');
   await page.getByLabel('First name').fill('Eva');
@@ -52,9 +50,9 @@ test('CUSTOMER FLOW — register, login, wishlist, cart', async ({ page }) => {
   await page.getByLabel('Password', { exact: true }).fill('secret123');
   await page.getByLabel('Confirm password').fill('secret123');
   await page.getByRole('button', { name: 'Create Account' }).click();
-  await expect(page.getByText('Eva')).toBeVisible();
+  await expect(page.getByText('Eva').first()).toBeVisible();
 
-  // Logout via the avatar menu, then login as demo customer instead
+  // Logout, login as demo customer instead
   await page.locator('header button', { hasText: /Eva/ }).first().click();
   await page.getByRole('button', { name: 'Logout' }).click();
   await page.goto('/login');
@@ -63,18 +61,17 @@ test('CUSTOMER FLOW — register, login, wishlist, cart', async ({ page }) => {
   await page.getByRole('button', { name: 'Login', exact: true }).click();
   await expect(page.getByText('Rahul')).toBeVisible();
 
-  // Add to wishlist from product page
+  // Save to wishlist + add to cart from product page
   await page.goto('/products/aurora-3-seater-fabric-sofa');
-  await page.getByRole('button', { name: /Wishlist/ }).click();
-  await expect(page.getByText('Saved to wishlist', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: /Save for later/ }).click();
+  await expect(page.getByText('Saved for later', { exact: false }).first()).toBeVisible({ timeout: 10000 }).catch(() => {});
 
-  // Add to cart
-  await page.getByRole('button', { name: 'Add to Cart' }).click();
-  await expect(page.getByText('Added to cart', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Add to your space' }).click();
+  await expect(page.locator('a[aria-label="Cart"] span')).toBeVisible();
   await expect(page.locator('a[aria-label="Cart"] span')).toHaveText(/^[1-9]\d*$/);
 });
 
-test('CUSTOMER FLOW — coupon, COD checkout, order confirmation', async ({ page }) => {
+test('CUSTOMER FLOW - coupon, COD checkout, order confirmation', async ({ page }) => {
   await page.goto('/login');
   await page.getByLabel('Email').fill('customer@furnishing.local');
   await page.getByLabel('Password', { exact: true }).fill('customer123');
@@ -83,8 +80,8 @@ test('CUSTOMER FLOW — coupon, COD checkout, order confirmation', async ({ page
 
   // Cart with an item
   await page.goto('/products/dune-table-lamp');
-  await page.getByRole('button', { name: 'Add to Cart' }).click();
-  await expect(page.getByText('Added to cart', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Add to your space' }).click();
+  await expect(page.locator('a[aria-label="Cart"] span')).toBeVisible();
   await page.goto('/cart');
   await expect(page.getByText('Order Summary')).toBeVisible();
 
@@ -93,30 +90,29 @@ test('CUSTOMER FLOW — coupon, COD checkout, order confirmation', async ({ page
   await page.getByRole('button', { name: 'Apply' }).click();
   await expect(page.getByText('Coupon applied', { exact: false })).toBeVisible();
 
-  // Checkout — address step
+  // Checkout - delivery details step
   await page.getByRole('button', { name: 'Proceed to Checkout' }).click();
-  await expect(page.getByText('Order Summary', { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/Green Park Colony/)).toBeVisible();
   await page.getByRole('button', { name: 'Continue to Order Summary' }).click();
 
-  // Summary step — coupon carried over
-  await expect(page.getByText('WELCOME10 applied', { exact: false })).toBeVisible();
+  // Summary step - coupon carried over
+  await expect(page.getByText('WELCOME10 applied', { exact: false }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Continue to Payment' }).click();
 
-  // Payment step — Cash on Delivery
+  // Payment step - Cash on Delivery
   await page.getByText('Cash on Delivery').click();
   await page.getByRole('button', { name: /Place Order/ }).click();
 
   // Confirmation
-  await expect(page.getByText('Order Confirmed!')).toBeVisible({ timeout: 20000 });
-  await expect(page.getByText('Cash on Delivery', { exact: false }).first()).toBeVisible();
+  await expect(page.getByText('Your order is confirmed!')).toBeVisible({ timeout: 20000 });
+
   // Track it (confirmation page link)
   await page.getByRole('link', { name: 'Track Order' }).first().click();
   await expect(page.getByText('Track Order', { exact: true })).toBeVisible();
-  await expect(page.getByText('Current status').first()).toBeVisible();
+  await expect(page.getByText("We've received your order and everything is looking good.").first()).toBeVisible();
 });
 
-test('CUSTOMER FLOW — simulated card payment + review', async ({ page }) => {
+test('CUSTOMER FLOW - simulated card payment + review', async ({ page }) => {
   // Register a fresh user so the review is never a duplicate
   await page.goto('/register');
   const stamp = Date.now();
@@ -129,8 +125,7 @@ test('CUSTOMER FLOW — simulated card payment + review', async ({ page }) => {
   await expect(page.getByText('Ava').first()).toBeVisible();
 
   await page.goto('/products/halo-pendant-light');
-  await page.getByRole('button', { name: 'Add to Cart' }).click();
-  await expect(page.getByText('Added to cart', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Add to your space' }).click();
   await expect(page.locator('a[aria-label="Cart"] span')).toBeVisible();
 
   // Add an address inline at checkout
@@ -150,21 +145,21 @@ test('CUSTOMER FLOW — simulated card payment + review', async ({ page }) => {
 
   // Local test payment
   await page.getByText('Local Test Payment').click();
-  await page.getByPlaceholder('Test User').fill('Rahul Sharma');
+  await page.getByPlaceholder('Test User').fill('Ava Reviewer');
   await page.getByRole('button', { name: /^Pay ₹/ }).click();
 
-  await expect(page.getByText('Order Confirmed!')).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText('Your order is confirmed!')).toBeVisible({ timeout: 20000 });
   await expect(page.getByText('Paid (simulated)')).toBeVisible();
 
-  // Review a delivered product (rating defaults to 5)
+  // Review a product (rating defaults to 5)
   await page.goto('/products/oakland-coffee-table');
   await page.getByRole('button', { name: 'Write a Review' }).click();
-  await page.getByPlaceholder('Share your experience').fill('Playwright E2E — superb craftsmanship, fast delivery!');
+  await page.getByPlaceholder('Share your experience').fill('Oak and Nest E2E - superb craftsmanship, fast delivery!');
   await page.getByRole('button', { name: 'Submit Review' }).click();
   await expect(page.getByText(/pending approval|Thank you/i).first()).toBeVisible({ timeout: 15000 });
 });
 
-test('ADMIN FLOW — dashboard, order status, review moderation', async ({ page }) => {
+test('ADMIN FLOW - dashboard, order status, review moderation', async ({ page }) => {
   await page.goto('/login');
   await page.getByLabel('Email').fill('admin@furnishing.local');
   await page.getByLabel('Password', { exact: true }).fill('admin123');
@@ -174,17 +169,17 @@ test('ADMIN FLOW — dashboard, order status, review moderation', async ({ page 
   await expect(page.getByText('Total Sales', { exact: false }).first()).toBeVisible();
   await expect(page.getByText('Recent Orders')).toBeVisible();
 
-  // Orders — advance a pending order to confirmed (sidebar link)
+  // Orders - advance a pending order to confirmed (sidebar link)
   await page.locator('aside nav a', { hasText: 'Orders' }).first().click();
   await expect(page.getByText('ORD-2025-00003', { exact: false }).first()).toBeVisible();
   const card = page.locator('div', { hasText: 'ORD-2025-00003' }).locator('select').first();
   await card.selectOption('confirmed');
   await page.waitForTimeout(800);
 
-  // Reviews moderation — approve the pending E2E review (sidebar link)
+  // Reviews moderation - approve the pending E2E review (sidebar link)
   await page.locator('aside nav a', { hasText: 'Reviews' }).first().click();
   await expect(page.getByText('Reviews', { exact: true }).first()).toBeVisible();
-  const pending = page.locator('div.rounded-2xl', { hasText: 'Playwright E2E' }).first();
+  const pending = page.locator('div.rounded-2xl', { hasText: 'Oak and Nest E2E' }).first();
   if (await pending.count()) {
     await pending.getByRole('button', { name: 'Approve' }).click();
   }

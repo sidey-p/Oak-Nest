@@ -23,10 +23,9 @@ const AdminLayout = () => {
     <div className="flex min-h-screen bg-brand-50">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-brand-800 bg-brand-950 md:flex">
         <div className="flex h-16 items-center gap-2.5 border-b border-brand-800 px-5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 font-serif text-lg text-gold-300 shadow-soft">FE</span>
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 font-serif text-lg text-gold-300 shadow-soft"><svg viewBox="0 0 24 24" className="h-4.5 w-4.5 text-gold-300" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 22v-7" /><path d="M9 15h6l3-6-3-4H9L6 9l3 6z" /></svg></span>
           <div>
-            <p className="text-sm font-bold text-white">Admin</p>
-            <p className="text-[10px] uppercase tracking-wider text-brand-400">Furnishing Essentials</p>
+            <p className="text-sm font-bold text-white">Admin</p><p className="text-[10px] uppercase tracking-wider text-brand-400">Oak &amp; Nest</p>
           </div>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto p-3">

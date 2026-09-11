@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import api, { errorMessage } from '../services/api';
-import { Alert, Empty } from '../components/common/UI';
+import { Alert, Empty, SectionHeading } from '../components/common/UI';
 import { formatPrice, effectivePrice } from '../utils/format';
 
 const Cart = () => {
@@ -12,6 +13,15 @@ const Cart = () => {
   const [coupon, setCoupon] = useState(null);
   const [couponError, setCouponError] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [popular, setPopular] = useState([]);
+
+  useEffect(() => {
+    if (cartCount === 0) {
+      api.get('/products', { params: { sort: 'popular', perPage: 4 } })
+        .then((d) => setPopular(d.data.products))
+        .catch(() => {});
+    }
+  }, [cartCount]);
 
   const totals = cart.totals || {};
   const discount = coupon
@@ -35,10 +45,29 @@ const Cart = () => {
 
   if (!loading && cartCount === 0) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16">
-        <Empty icon="🛒" title="Your cart is empty" subtitle="Browse our collection to find something you love.">
-          <Link to="/products" className="rounded-full bg-brand-800 px-8 py-3 text-sm font-bold text-white hover:bg-brand-700">Start Shopping</Link>
+      <div className="mx-auto max-w-5xl px-4 py-16">
+        <Empty icon={<ShoppingBag className="h-7 w-7 text-brand-500" />} title="Your space is waiting." subtitle="Your cart is empty, but your next favorite piece might be just a click away.">
+          <Link to="/products" className="btn-shine inline-block rounded-full bg-brand-900 px-8 py-3 text-sm font-bold text-white hover:bg-brand-800">Explore Furniture →</Link>
         </Empty>
+
+        {popular.length > 0 && (
+          <section className="mt-14">
+            <SectionHeading eyebrow="Popular right now" title="You might love these too." />
+            <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {popular.map((p) => (
+                <Link key={p.id} to={`/products/${p.slug}`} className="card-lift group overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-soft">
+                  <div className="aspect-4/3 overflow-hidden bg-brand-100">
+                    <img src={p.main_image} alt={p.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
+                  </div>
+                  <div className="p-4">
+                    <p className="line-clamp-1 text-sm font-semibold text-brand-900">{p.name}</p>
+                    <p className="mt-1 text-sm font-bold text-brand-700">{formatPrice(effectivePrice(p))}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     );
   }

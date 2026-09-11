@@ -34,14 +34,14 @@ const Login = () => {
         <div className="relative flex h-full flex-col justify-between p-12">
           <Link to="/" className="flex items-center gap-2.5">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-800 to-brand-950 font-serif text-lg text-gold-300 shadow-soft">FE</span>
-            <span className="font-serif text-lg font-semibold text-white">Furnishing Essentials</span>
+            <span className="font-serif text-lg font-semibold text-white">Oak <span className="gradient-text">&amp; Nest</span></span>
           </Link>
           <div className="reveal">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-300">Welcome back</p>
             <h2 className="mt-3 font-serif text-4xl font-bold leading-tight text-white">Timeless pieces, <span className="gradient-text italic">waiting for you.</span></h2>
             <p className="mt-4 max-w-sm text-brand-300">Sign in to track orders, manage your wishlist, and pick up right where you left off.</p>
           </div>
-          <p className="text-xs text-brand-500">&copy; {new Date().getFullYear()} Furnishing Essentials</p>
+          <p className="text-xs text-brand-500">&copy; {new Date().getFullYear()} Oak &amp; Nest. Make room for what matters.</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ const Login = () => {
       <div className="flex flex-col justify-center px-4 py-16 sm:px-10 lg:px-16">
         <div className="reveal mx-auto w-full max-w-md">
           <h1 className="font-serif text-3xl font-bold text-brand-900">Welcome Back</h1>
-          <p className="mt-2 text-sm text-brand-500">Login to your Furnishing Essentials account</p>
+          <p className="mt-2 text-sm text-brand-500">Welcome back to Oak &amp; Nest</p>
 
           {error && <div className="mt-6"><Alert>{error}</Alert></div>}
 

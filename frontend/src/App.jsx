@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import AnnouncementBar from './components/layout/AnnouncementBar';
 import { Spinner } from './components/common/UI';
 
 import Home from './pages/Home';
@@ -18,6 +19,7 @@ import OrderDetails from './pages/OrderDetails';
 import TrackOrder from './pages/TrackOrder';
 import CustomDesign from './pages/CustomDesign';
 import Feedback from './pages/Feedback';
+import Inspiration from './pages/Inspiration';
 import NotFound from './pages/NotFound';
 
 import AdminLayout from './pages/admin/AdminLayout';
@@ -61,6 +63,7 @@ const App = () => (
       path="*"
       element={
         <>
+          <AnnouncementBar />
           <Navbar />
           <main className="min-h-[70vh]">
             <Routes>
@@ -78,6 +81,7 @@ const App = () => (
               <Route path="/orders/:id/tracking" element={<Protected><TrackOrder /></Protected>} />
               <Route path="/custom-design" element={<CustomDesign />} />
               <Route path="/feedback" element={<Feedback />} />
+              <Route path="/inspiration" element={<Inspiration />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

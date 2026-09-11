@@ -32,7 +32,7 @@ const Register = () => {
     <div className="relative mx-auto max-w-md overflow-hidden px-4 py-16">
       <div className="pointer-events-none absolute -top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold-300/20 blur-3xl" />
       <h1 className="reveal text-center font-serif text-3xl font-bold text-brand-900">Create Account</h1>
-      <p className="reveal mt-2 text-center text-sm text-brand-500" style={{ animationDelay: '60ms' }}>Join Furnishing Essentials today</p>
+      <p className="reveal mt-2 text-center text-sm text-brand-500" style={{ animationDelay: '60ms' }}>Join Oak &amp; Nest — make room for what matters.</p>
 
       {error && <div className="mt-6"><Alert>{error}</Alert></div>}
 

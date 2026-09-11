@@ -4,6 +4,16 @@ import api, { errorMessage } from '../services/api';
 import { Alert, Spinner } from '../components/common/UI';
 import { formatDate } from '../utils/format';
 
+const FRIENDLY_STEPS = {
+  pending: "We've received your order and everything is looking good.",
+  confirmed: "We've received your order and everything is looking good.",
+  processing: 'Your pieces are being prepared for their journey to you.',
+  shipped: 'Your order is on its way.',
+  out_for_delivery: 'It\u2019s almost there.',
+  delivered: 'Your space just got a little better. Enjoy your new piece!',
+  cancelled: 'This order was cancelled.',
+};
+
 const TrackOrder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -63,7 +73,8 @@ const TrackOrder = () => {
                 </div>
                 <div className="pt-1.5">
                   <p className={`font-semibold ${t.completed ? 'text-brand-900' : 'text-brand-400'}`}>{t.label}</p>
-                  {t.current && <p className="text-xs font-semibold text-accent-700">Current status</p>}
+                  {t.current && <p className="text-xs font-semibold text-accent-700">{FRIENDLY_STEPS[t.step]}</p>}
+                  {!t.completed && !t.current && t.step === 'pending' && null}
                 </div>
               </li>
             ))}

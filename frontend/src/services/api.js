@@ -21,8 +21,9 @@ api.interceptors.response.use(
       }
     }
     const message = err.response?.data?.message
-      || (err.code === 'ERR_NETWORK' ? 'Cannot reach the server. Is the backend running?'
-        : 'Something went wrong. Please try again.');
+      || (err.code === 'ERR_NETWORK'
+        ? "We're having trouble connecting. Check your connection and try again."
+        : "Something didn't go as planned. Please try again.");
     return Promise.reject(new Error(message));
   },
 );
